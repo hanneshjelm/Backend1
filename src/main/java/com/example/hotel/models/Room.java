@@ -21,4 +21,9 @@ public class Room {
 
     private boolean isDoubleRoom;
 
+    public Room(int size, boolean isDoubleRoom) {
+        this.size = size;
+        this.isDoubleRoom = isDoubleRoom;
+    }
+
 }
