@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 
 
 @Data
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class CustomerModel {
     @Id
