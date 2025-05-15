@@ -25,6 +25,11 @@ public class CustomerController {
         return customerRepository.findAll();
     }
 
+    @DeleteMapping("/api/customers/delete/{id}")
+    public void deleteCustomer(@PathVariable Long id) {
+        customerRepository.deleteById(id);
+    }
+
 
 
 }
