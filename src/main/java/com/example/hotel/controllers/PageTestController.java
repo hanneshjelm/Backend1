@@ -1,6 +1,6 @@
 package com.example.hotel.controllers;
 
-import com.example.hotel.models.CustomerModel;
+import com.example.hotel.models.Customer;
 import com.example.hotel.repos.CustomerRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,13 @@ public class PageTestController {
 
     @GetMapping("/test")
     public String showForm(Model model) {
-        model.addAttribute("customer", new CustomerModel());
+        model.addAttribute("customer", new Customer());
         return "test";
     }
 
     @PostMapping("/register")
     public String handleSubmit(
-            @Valid @ModelAttribute("customer") CustomerModel customer,
+            @Valid @ModelAttribute("customer") Customer customer,
             BindingResult result,
             Model model
     ) {

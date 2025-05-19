@@ -1,6 +1,6 @@
 package com.example.hotel.services;
 
-import com.example.hotel.models.CustomerModel;
+import com.example.hotel.models.Customer;
 import com.example.hotel.repos.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +17,12 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     @PostMapping
-    public CustomerModel createCustomer(@RequestBody CustomerModel customer) {
+    public Customer createCustomer(@RequestBody Customer customer) {
         return customerRepository.save(customer);
     }
 
     @GetMapping
-    public List<CustomerModel> getAllCustomers() {
+    public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
 }

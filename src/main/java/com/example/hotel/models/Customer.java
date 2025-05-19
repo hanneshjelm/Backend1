@@ -3,19 +3,21 @@ package com.example.hotel.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class CustomerModel {
+public class Customer {
     @Id
     @GeneratedValue
     private Long id;
@@ -30,4 +32,11 @@ public class CustomerModel {
             message = "Please provide a valid email address"
     )
     private String email;
+
+    public Customer (String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+    //@OneToMany(mappedBy = "customer")
+    //private List<Booking> bookings;
 }
