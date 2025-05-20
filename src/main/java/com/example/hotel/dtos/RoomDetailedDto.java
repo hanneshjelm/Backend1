@@ -16,8 +16,8 @@ public class RoomDetailedDto {
     private long id;
     private int roomNumber;
     private int size;
-    private boolean isDoubleRoom;
-    //private List<BookingDto> rooms; BookingDto behöver skapas
+    private boolean doubleRoom;
+    private List<BookingDto> bookings;
 
 
 }

@@ -14,8 +14,4 @@ public class RoomDto {
     private int roomNumber;
     private boolean doubleRoom;
 
-
-    private Long id;
-    private int roomNumber;
-
 }
