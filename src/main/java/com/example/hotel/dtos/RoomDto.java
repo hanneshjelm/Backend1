@@ -10,5 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class RoomDto {
+    private long id;
+    private int roomNumber;
+    private boolean doubleRoom;
+
 
 }
