@@ -4,6 +4,7 @@ import com.example.hotel.dtos.RoomDetailedDto;
 import com.example.hotel.dtos.RoomDto;
 import com.example.hotel.models.Room;
 import com.example.hotel.repos.RoomRepository;
+import com.example.hotel.services.BookingService;
 import com.example.hotel.services.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class RoomServiceImpl implements RoomService {
 
     @Autowired
     private RoomRepository roomRepository;
+
+    @Autowired
+    private BookingService bookingService;
 
     @Override
     public List<RoomDto> getAllRooms() {
@@ -35,6 +39,8 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDetailedDto roomToRoomDetailedDto(Room roomEntity) {
-        return RoomDetailedDto.builder().id(roomEntity.getId()).roomNumber(roomEntity.getRoomNumber()).size(roomEntity.getSize()).doubleRoom(roomEntity.isDoubleRoom()).build();
+        return RoomDetailedDto.builder().id(roomEntity.getId()).roomNumber(roomEntity.getRoomNumber())
+                .size(roomEntity.getSize()).doubleRoom(roomEntity.isDoubleRoom()).bookings(roomEntity.getBookings()
+                        .stream().map(booking -> bookingService.bookingToBookingDto(booking)).toList()).build();
     }
 }

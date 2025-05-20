@@ -19,5 +19,4 @@ public class RoomDetailedDto {
     private boolean doubleRoom;
     private List<BookingDto> bookings;
 
-
 }
