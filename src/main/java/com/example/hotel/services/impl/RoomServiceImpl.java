@@ -25,7 +25,7 @@ public class RoomServiceImpl implements RoomService {
 
 
     public RoomDetailedDto getRoomById(long id) {
-        return roomToRoomDetailedDto(roomRepository.findBy(id));
+        return roomToRoomDetailedDto(roomRepository.findById(id).get()); //Behöver checka denna metod om rum inte hittas
     }
 
     @Override
