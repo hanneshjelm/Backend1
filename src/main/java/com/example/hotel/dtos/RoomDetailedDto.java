@@ -19,4 +19,7 @@ public class RoomDetailedDto {
     private boolean doubleRoom;
     private List<BookingDto> bookings;
 
+    private int extraBeds;
+    private int capacity;
+
 }

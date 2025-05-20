@@ -29,7 +29,7 @@ public class RoomServiceImpl implements RoomService {
 
 
     public RoomDetailedDto getRoomById(long id) {
-        return roomToRoomDetailedDto(roomRepository.findById(id).get()); //Behöver checka denna metod om rum inte hittas
+        return roomToRoomDetailedDto(roomRepository.findById(id).orElseThrow()); //Behöver checka denna metod om rum inte hittas
     }
 
     @Override
@@ -39,8 +39,35 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDetailedDto roomToRoomDetailedDto(Room roomEntity) {
-        return RoomDetailedDto.builder().id(roomEntity.getId()).roomNumber(roomEntity.getRoomNumber())
+        RoomDetailedDto roomDetailedDto = RoomDetailedDto.builder().id(roomEntity.getId()).roomNumber(roomEntity.getRoomNumber())
                 .size(roomEntity.getSize()).doubleRoom(roomEntity.isDoubleRoom()).bookings(roomEntity.getBookings()
                         .stream().map(booking -> bookingService.bookingToBookingDto(booking)).toList()).build();
+
+        roomDetailedDto.setExtraBeds(amountOfExtraBeds(roomEntity));
+        roomDetailedDto.setCapacity(totalCapacity(roomEntity));
+        return roomDetailedDto;
     }
+
+    public int amountOfExtraBeds(Room room){
+        if (!room.isDoubleRoom()){
+            return 0;
+        }
+
+        if(room.getSize() < 22){
+            return 0;
+        } else if(room.getSize() < 30){
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
+    public int totalCapacity(Room room){
+        if(room.isDoubleRoom()){
+            return 2 + amountOfExtraBeds(room);
+        }
+
+        return 1;
+    }
+
 }
