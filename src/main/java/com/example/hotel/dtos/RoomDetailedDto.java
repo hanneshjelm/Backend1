@@ -14,9 +14,10 @@ import java.util.List;
 public class RoomDetailedDto {
 
     private long id;
+    private int roomNumber;
     private int size;
     private boolean isDoubleRoom;
-    private List<BookingDto> rooms;
+    //private List<BookingDto> rooms; BookingDto behöver skapas
 
 
 }

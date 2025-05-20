@@ -24,15 +24,15 @@ public class Room {
 
     private int size;
 
-    private boolean isDoubleRoom;
+    private boolean doubleRoom;
 
     @OneToMany(mappedBy = "room")
     private List<Booking> bookings;
 
-    public Room(int roomNumber, int size, boolean isDoubleRoom) {
+    public Room(int roomNumber, int size, boolean doubleRoom) {
         this.roomNumber = roomNumber;
         this.size = size;
-        this.isDoubleRoom = isDoubleRoom;
+        this.doubleRoom = doubleRoom;
     }
 
 }
