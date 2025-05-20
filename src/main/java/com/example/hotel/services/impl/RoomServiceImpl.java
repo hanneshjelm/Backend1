@@ -2,6 +2,7 @@ package com.example.hotel.services.impl;
 
 import com.example.hotel.dtos.RoomDetailedDto;
 import com.example.hotel.dtos.RoomDto;
+import com.example.hotel.enums.RoomType;
 import com.example.hotel.models.Room;
 import com.example.hotel.repos.RoomRepository;
 import com.example.hotel.services.BookingService;
@@ -34,13 +35,13 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDto roomToRoomDto(Room roomEntity) {
-        return RoomDto.builder().id(roomEntity.getId()).roomNumber(roomEntity.getRoomNumber()).doubleRoom(roomEntity.isDoubleRoom()).build();
+        return RoomDto.builder().id(roomEntity.getId()).roomNumber(roomEntity.getRoomNumber()).roomType(roomEntity.getRoomType()).build();
     }
 
     @Override
     public RoomDetailedDto roomToRoomDetailedDto(Room roomEntity) {
         RoomDetailedDto roomDetailedDto = RoomDetailedDto.builder().id(roomEntity.getId()).roomNumber(roomEntity.getRoomNumber())
-                .size(roomEntity.getSize()).doubleRoom(roomEntity.isDoubleRoom()).bookings(roomEntity.getBookings()
+                .size(roomEntity.getSize()).roomType(roomEntity.getRoomType()).bookings(roomEntity.getBookings()
                         .stream().map(booking -> bookingService.bookingToBookingDto(booking)).toList()).build();
 
         roomDetailedDto.setExtraBeds(amountOfExtraBeds(roomEntity));
@@ -49,7 +50,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     public int amountOfExtraBeds(Room room){
-        if (!room.isDoubleRoom()){
+        if (room.getRoomType() == RoomType.SINGLE){
             return 0;
         }
 
@@ -63,11 +64,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     public int totalCapacity(Room room){
-        if(room.isDoubleRoom()){
-            return 2 + amountOfExtraBeds(room);
+        if(room.getRoomType() == RoomType.DOUBLE){
+            return RoomType.DOUBLE.getValue() + amountOfExtraBeds(room);
         }
 
-        return 1;
+        return room.getRoomType().getValue();
     }
 
 }

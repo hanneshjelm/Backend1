@@ -1,9 +1,7 @@
 package com.example.hotel.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.example.hotel.enums.RoomType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,15 +22,16 @@ public class Room {
 
     private int size;
 
-    private boolean doubleRoom;
+    @Enumerated(EnumType.STRING)
+    private RoomType roomType;
 
     @OneToMany(mappedBy = "room")
     private List<Booking> bookings;
 
-    public Room(int roomNumber, int size, boolean doubleRoom) {
+    public Room(int roomNumber, int size, RoomType roomType) {
         this.roomNumber = roomNumber;
         this.size = size;
-        this.doubleRoom = doubleRoom;
+        this.roomType = roomType;
     }
 
 }

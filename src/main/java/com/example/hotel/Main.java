@@ -1,5 +1,6 @@
 package com.example.hotel;
 
+import com.example.hotel.enums.RoomType;
 import com.example.hotel.models.Booking;
 import com.example.hotel.models.Customer;
 import com.example.hotel.models.Room;
@@ -23,21 +24,21 @@ public class Main {
     public CommandLineRunner commandLineRunner(RoomRepository roomRepository, CustomerRepository customerRepository, BookingRepository bookingRepository) {
         return args -> {
             List<Room> rooms = List.of(
-            roomRepository.save(new Room(101,14, false)),
-            roomRepository.save(new Room(102,14, false)),
-            roomRepository.save(new Room(103, 14, false)),
-            roomRepository.save(new Room(104, 16, false)),
-            roomRepository.save(new Room(105, 16, false)),
-            roomRepository.save(new Room(106,24, true)),
-            roomRepository.save(new Room(107, 24, true)),
-            roomRepository.save(new Room(108,24, true)),
-            roomRepository.save(new Room(109, 24, true)),
-            roomRepository.save(new Room(110, 24, true)),
-            roomRepository.save(new Room(111, 24, true)),
-            roomRepository.save(new Room(112, 32, true)),
-            roomRepository.save(new Room(113, 32, true)),
-            roomRepository.save(new Room(114, 32, true)),
-            roomRepository.save(new Room(115, 32, true))
+            roomRepository.save(new Room(101,14, RoomType.SINGLE)),
+            roomRepository.save(new Room(102,14, RoomType.SINGLE)),
+            roomRepository.save(new Room(103, 14, RoomType.SINGLE)),
+            roomRepository.save(new Room(104, 16, RoomType.SINGLE)),
+            roomRepository.save(new Room(105, 16, RoomType.SINGLE)),
+            roomRepository.save(new Room(106,24, RoomType.DOUBLE)),
+            roomRepository.save(new Room(107, 24, RoomType.DOUBLE)),
+            roomRepository.save(new Room(108,24, RoomType.DOUBLE)),
+            roomRepository.save(new Room(109, 24, RoomType.DOUBLE)),
+            roomRepository.save(new Room(110, 24, RoomType.DOUBLE)),
+            roomRepository.save(new Room(111, 24, RoomType.DOUBLE)),
+            roomRepository.save(new Room(112, 32, RoomType.DOUBLE)),
+            roomRepository.save(new Room(113, 32, RoomType.DOUBLE)),
+            roomRepository.save(new Room(114, 32, RoomType.DOUBLE)),
+            roomRepository.save(new Room(115, 32, RoomType.DOUBLE))
             );
 
             List<Customer> customers = List.of(
