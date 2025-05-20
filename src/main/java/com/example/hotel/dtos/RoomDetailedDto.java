@@ -17,7 +17,7 @@ public class RoomDetailedDto {
     private long id;
     private int roomNumber;
     private int size;
-    private RoomType roomType;
+    private RoomType roomType; //Måste fråga Sigrun om det kan vara värt att ha String med RoomType.getType() istället.
     private List<BookingDto> bookings;
 
     private int extraBeds;
