@@ -28,6 +28,8 @@ public class Booking {
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
 
+    private int guests;
+
     public Booking (Customer customer, Room room) {
         this.customer = customer;
         this.room = room;

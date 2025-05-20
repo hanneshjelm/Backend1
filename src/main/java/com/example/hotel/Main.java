@@ -23,21 +23,21 @@ public class Main {
     public CommandLineRunner commandLineRunner(RoomRepository roomRepository, CustomerRepository customerRepository, BookingRepository bookingRepository) {
         return args -> {
             List<Room> rooms = List.of(
-            roomRepository.save(new Room(14, false)),
-            roomRepository.save(new Room(14, false)),
-            roomRepository.save(new Room(14, false)),
-            roomRepository.save(new Room(16, false)),
-            roomRepository.save(new Room(16, false)),
-            roomRepository.save(new Room(24, true)),
-            roomRepository.save(new Room(24, true)),
-            roomRepository.save(new Room(24, true)),
-            roomRepository.save(new Room(24, true)),
-            roomRepository.save(new Room(24, true)),
-            roomRepository.save(new Room(24, true)),
-            roomRepository.save(new Room(32, true)),
-            roomRepository.save(new Room(32, true)),
-            roomRepository.save(new Room(32, true)),
-            roomRepository.save(new Room(32, true))
+            roomRepository.save(new Room(101,14, false)),
+            roomRepository.save(new Room(102,14, false)),
+            roomRepository.save(new Room(103, 14, false)),
+            roomRepository.save(new Room(104, 16, false)),
+            roomRepository.save(new Room(105, 16, false)),
+            roomRepository.save(new Room(106,24, true)),
+            roomRepository.save(new Room(107, 24, true)),
+            roomRepository.save(new Room(108,24, true)),
+            roomRepository.save(new Room(109, 24, true)),
+            roomRepository.save(new Room(110, 24, true)),
+            roomRepository.save(new Room(111, 24, true)),
+            roomRepository.save(new Room(112, 32, true)),
+            roomRepository.save(new Room(113, 32, true)),
+            roomRepository.save(new Room(114, 32, true)),
+            roomRepository.save(new Room(115, 32, true))
             );
 
             List<Customer> customers = List.of(

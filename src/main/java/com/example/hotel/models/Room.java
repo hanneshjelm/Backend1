@@ -20,6 +20,8 @@ public class Room {
     @GeneratedValue
     private long id;
 
+    private int roomNumber;
+
     private int size;
 
     private boolean isDoubleRoom;
@@ -27,7 +29,8 @@ public class Room {
     @OneToMany(mappedBy = "room")
     private List<Booking> bookings;
 
-    public Room(int size, boolean isDoubleRoom) {
+    public Room(int roomNumber, int size, boolean isDoubleRoom) {
+        this.roomNumber = roomNumber;
         this.size = size;
         this.isDoubleRoom = isDoubleRoom;
     }
