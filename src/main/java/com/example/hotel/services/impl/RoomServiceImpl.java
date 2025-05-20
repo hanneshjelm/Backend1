@@ -19,6 +19,16 @@ public class RoomServiceImpl implements RoomService {
     private RoomRepository roomRepository;
 
     @Override
+    public List<RoomDto> getAllRooms() {
+        return roomRepository.findAll().stream().map(this::roomToRoomDto).toList();
+    }
+
+
+    public RoomDetailedDto getRoomById(long id) {
+        return roomToRoomDetailedDto(roomRepository.findBy(id));
+    }
+
+    @Override
     public RoomDto roomToRoomDto(Room roomEntity) {
         return RoomDto.builder().id(roomEntity.getId()).roomNumber(roomEntity.getRoomNumber()).doubleRoom(roomEntity.isDoubleRoom()).build();
     }
@@ -26,20 +36,5 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public RoomDetailedDto roomToRoomDetailedDto(Room roomEntity) {
         return RoomDetailedDto.builder().id(roomEntity.getId()).roomNumber(roomEntity.getRoomNumber()).size(roomEntity.getSize()).doubleRoom(roomEntity.isDoubleRoom()).build();
-    }
-
-    @Override
-    public List<RoomDto> getAllRooms() {
-        return roomRepository.findAll().stream().map(this::roomToRoomDto).toList();
-    }
-
-    @Override
-    public Room roomToRoomDto(RoomDto DtoRoom) {
-        return null;
-    }
-
-    @Override
-    public Room roomToRoomDetailedDto(RoomDetailedDto detailedRoom) {
-        return null;
     }
 }
