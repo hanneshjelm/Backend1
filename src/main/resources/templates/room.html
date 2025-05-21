@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rooms</title>
+</head>
+<body>
+<th th:text="${roomTitle}"></th>
+<div class="allRooms" th:unless="${#lists.isEmpty(allRooms)}">
+    <table>
+        <th th:text="${name}"></th>
+        <tbody>
+        <tr th:each="room : ${allRooms}">
+            <td th:text="${room.roomNumber}"></td>
+            <td th:text="${room.roomType}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>
