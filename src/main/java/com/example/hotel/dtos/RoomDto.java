@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 public class RoomDto {
     private long id;
     private int roomNumber;
-    private RoomType roomType; //Måste fråga Sigrun om det kan vara värt att ha String med RoomType.getType() istället.
+    private String roomTypeString; //Måste fråga Sigrun om det kan vara värt att ha String med RoomType.getType() istället.
 
 }

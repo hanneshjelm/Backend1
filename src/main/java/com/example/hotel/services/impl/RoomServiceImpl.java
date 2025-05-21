@@ -35,13 +35,13 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDto roomToRoomDto(Room roomEntity) {
-        return RoomDto.builder().id(roomEntity.getId()).roomNumber(roomEntity.getRoomNumber()).roomType(roomEntity.getRoomType()).build();
+        return RoomDto.builder().id(roomEntity.getId()).roomNumber(roomEntity.getRoomNumber()).roomTypeString(roomEntity.getRoomType().getType()).build();
     }
 
     @Override
     public RoomDetailedDto roomToRoomDetailedDto(Room roomEntity) {
         RoomDetailedDto roomDetailedDto = RoomDetailedDto.builder().id(roomEntity.getId()).roomNumber(roomEntity.getRoomNumber())
-                .size(roomEntity.getSize()).roomType(roomEntity.getRoomType()).bookings(roomEntity.getBookings()
+                .size(roomEntity.getSize()).roomTypeString(roomEntity.getRoomType().getType()).bookings(roomEntity.getBookings()
                         .stream().map(booking -> bookingService.bookingToBookingDto(booking)).toList()).build();
 
         roomDetailedDto.setExtraBeds(amountOfExtraBeds(roomEntity));
