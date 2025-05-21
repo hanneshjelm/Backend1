@@ -49,7 +49,9 @@ public class CustomerControllerTest
     @Test
     public void getAllCustomersTest() throws Exception
     {
-        MvcResult mvcResult = mockMvc.perform(get("/api/customers/allcustomers")).andExpect(status().isOk()).andExpect((ResultMatcher) jsonPath("$.[*].name").value(containsInAnyOrder( "James"))).andReturn();
+        MvcResult mvcResult = mockMvc.perform(get("/api/customers/allcustomers"))
+                .andExpect(status().isOk()).andExpect((ResultMatcher) jsonPath("$.[*].name")
+                        .value(containsInAnyOrder( "James"))).andReturn();
 
 
     }
