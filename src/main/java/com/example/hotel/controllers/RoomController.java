@@ -24,8 +24,8 @@ public class RoomController {
     public String getAllRooms(Model model) {
         List<RoomDto> rooms = roomService.getAllRooms();
         model.addAttribute("roomTitle", "All Rooms");
-        model.addAttribute("allRooms", rooms);
         model.addAttribute("name", "Vad händer här?");
+        model.addAttribute("allRooms", rooms);
 
         return "room";
     }
