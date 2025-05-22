@@ -21,4 +21,6 @@ public interface CustomerService {
 
     public Customer findCustomerById(Long id);
 
+    public String updateCustomer(CustomerDetailedDto c);
+
 }

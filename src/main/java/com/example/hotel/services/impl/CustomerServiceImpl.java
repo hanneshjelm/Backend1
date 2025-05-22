@@ -66,4 +66,22 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer findCustomerById(Long id) {
             return customerRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public String updateCustomer(CustomerDetailedDto c) {
+        Customer existingCustomer = findCustomerById(c.getId());
+        if (existingCustomer != null) {
+
+            existingCustomer.setName(c.getName());
+            existingCustomer.setEmail(c.getEmail());
+            existingCustomer.setPhoneNumber(c.getPhoneNumber());
+
+            customerRepository.save(existingCustomer);
+            return "Customer updated successfully";
+        }
+        else {
+            return "Customer not found";
+        }
+
+    }
 }
