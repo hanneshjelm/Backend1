@@ -18,8 +18,13 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
 
     @Override
-    public List<BookingDetailedDto> getAllBookings() {
-        return bookingRepository.findAll().stream().map(this::bookingToBookingDetailedDto).toList();
+    public List<BookingDto> getAllBookings() {
+        return bookingRepository.findAll().stream().map(this::bookingToBookingDto).toList();
+    }
+
+    @Override
+    public BookingDetailedDto findBookingById(Long id) {
+        return bookingToBookingDetailedDto(bookingRepository.findById(id).get());
     }
 
     @Override
