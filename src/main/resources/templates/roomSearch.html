@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search for avaliable rooms</title>
+</head>
+<body>
+<h2>Search for:</h2>
+<form th:action="@{/searchAvaliableRooms}" th:object="${booking}" method="post">
+    <label for="checkIn">Check-in:</label>
+    <input type="date" th:field="*{checkInDate}" id="checkIn" required>
+
+    <label for="checkOut">Check-out:</label>
+    <input type="date" th:field="*{checkOutDate}" id="checkOut" required>
+
+    <label for="guests">Guests:</label>
+    <input type="number" th:field="*{guests}" id="guests" min="1" required>
+
+    <button type="submit">Search Room</button>
+</form>
+
+
+
+<a href="/test">Search now</a>
+</body>
+</html>
