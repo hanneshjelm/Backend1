@@ -42,10 +42,10 @@ public class Main {
             );
 
             List<Customer> customers = List.of(
-            customerRepository.save(new Customer("John", "Smith@gmail.com")),
-            customerRepository.save(new Customer("Jane", "Doe@gmail.com")),
-            customerRepository.save(new Customer("Bob", "Bob@gmail.com")),
-            customerRepository.save(new Customer("Louise", "Loulou@gmail.com"))
+            customerRepository.save(new Customer("John", "Smith@gmail.com", "010110011")),
+            customerRepository.save(new Customer("Jane", "Doe@gmail.com", "2938471029")),
+            customerRepository.save(new Customer("Bob", "Bob@gmail.com","029381923")),
+            customerRepository.save(new Customer("Louise", "Loulou@gmail.com", "482019283"))
             );
 
             List<Booking> bookings = List.of(

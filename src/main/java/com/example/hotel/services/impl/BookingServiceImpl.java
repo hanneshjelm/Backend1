@@ -5,11 +5,18 @@ import com.example.hotel.dtos.BookingDto;
 import com.example.hotel.dtos.CustomerDto;
 import com.example.hotel.dtos.RoomDto;
 import com.example.hotel.models.Booking;
+import com.example.hotel.models.Customer;
+import com.example.hotel.models.Room;
 import com.example.hotel.repos.BookingRepository;
+import com.example.hotel.repos.CustomerRepository;
 import com.example.hotel.services.BookingService;
+import com.example.hotel.services.CustomerService;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -34,5 +41,20 @@ public class BookingServiceImpl implements BookingService {
                 .room(new RoomDto(b.getRoom().getId(), b.getRoom().getRoomNumber(), b.getRoom().getRoomType().getType())).guests(b.getGuests()).checkInDate(b.getCheckInDate())
                 .checkOutDate(b.getCheckOutDate()).build();
     }
+
+
+    /*
+    public Booking BookingDetailedDtoToBooking(BookingDetailedDto b) {
+        return Booking.builder().id(b.getId()).customer(customerService.findCustomerById(b.getId()))
+               // .room(b.getRoom()).checkInDate(b.getCheckInDate())
+                .checkOutDate(b.getCheckOutDate()).guests(b.getGuests())
+                .build(); }
+*/
+
+
+    public Booking findBookingById(Long id) {
+        return bookingRepository.findById(id).orElse(null);
+    }
+
 
 }
