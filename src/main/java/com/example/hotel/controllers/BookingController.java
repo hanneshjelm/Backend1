@@ -52,13 +52,13 @@ public class BookingController {
 
 
 
-    @GetMapping("/searchAvaliableRooms")
+    @GetMapping("/searchAvailableRooms")
     public String showSearchForm(Model model) {
         model.addAttribute("booking", new BookingDto());
         return "roomSearch";
     }
 
-    @PostMapping("/searchAvaliableRooms")
+    @PostMapping("/searchAvailableRooms")
     public String searchAvailableRooms(
             @ModelAttribute("booking") BookingDto bookingForm,
             Model model
@@ -66,6 +66,6 @@ public class BookingController {
         List<RoomDetailedDto> availableRooms = roomService.getAvailableRooms(bookingForm);
 
         model.addAttribute("rooms", availableRooms);
-        return "avaliableRooms";
+        return "availableRooms";
     }
 }
