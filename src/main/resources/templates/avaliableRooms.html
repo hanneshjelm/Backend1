@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List avaliable rooms</title>
+</head>
+<body>
+<h2>Avaliable rooms:</h2>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Room Number</th>
+        <th>Guest Capacity</th>
+    </tr>
+    <tr th:each="room : ${rooms}">
+        <td th:text="${room.id}"></td>
+        <td th:text="${room.roomNumber}"></td>
+        <td th:text="${room.capacity}"></td>
+    </tr>
+</table>
+</body>
+</html>

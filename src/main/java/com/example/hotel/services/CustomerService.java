@@ -1,28 +1,26 @@
 package com.example.hotel.services;
 
+import com.example.hotel.dtos.CustomerDetailedDto;
+import com.example.hotel.dtos.CustomerDto;
 import com.example.hotel.models.Customer;
-import com.example.hotel.repos.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@Service
-public class CustomerService {
+public interface CustomerService {
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    public CustomerDto customerToCustomerDto(Customer c);
+    public CustomerDetailedDto customerToCustomerDetailedDto(Customer c);
 
-    @PostMapping
-    public Customer createCustomer(@RequestBody Customer customer) {
-        return customerRepository.save(customer);
-    }
+    public Customer customerDetailedDtoToCustomer(CustomerDetailedDto c);
 
-    @GetMapping
-    public List<Customer> getAllCustomers() {
-        return customerRepository.findAll();
-    }
+    public List<CustomerDetailedDto> getAllCustomers();
+
+    public String createCustomer(CustomerDetailedDto c);
+
+    public Customer findCustomerById(Long id);
+
+    public String updateCustomer(CustomerDetailedDto c);
+
 }

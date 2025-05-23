@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import lombok.Builder;
 import java.util.List;
 
 
@@ -17,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class Customer {
     @Id
     @GeneratedValue
@@ -33,10 +34,14 @@ public class Customer {
     )
     private String email;
 
-    public Customer (String name, String email) {
+    @Pattern(regexp = "\\+?[0-9 ]{8,15}", message = "Invalid phone number format")
+    private String phoneNumber;
+
+    public Customer (String name, String email, String phoneNumber) {
         this.name = name;
         this.email = email;
+        this.phoneNumber = phoneNumber;
     }
-    //@OneToMany(mappedBy = "customer")
-    //private List<Booking> bookings;
+    @OneToMany(mappedBy = "customer")
+    private List<Booking> bookings;
 }

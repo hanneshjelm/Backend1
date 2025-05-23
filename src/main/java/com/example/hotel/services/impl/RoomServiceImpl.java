@@ -1,5 +1,6 @@
 package com.example.hotel.services.impl;
 
+import com.example.hotel.dtos.BookingDto;
 import com.example.hotel.dtos.RoomDetailedDto;
 import com.example.hotel.dtos.RoomDto;
 import com.example.hotel.enums.RoomType;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -69,6 +71,27 @@ public class RoomServiceImpl implements RoomService {
         }
 
         return room.getRoomType().getValue();
+    }
+
+    public List<RoomDetailedDto> getAvailableRooms (BookingDto b) {
+
+        LocalDate checkIn = b.getCheckInDate();
+        LocalDate checkOut = b.getCheckOutDate();
+        int guestRequirement= b.getGuests();
+
+        if (checkIn == null || checkOut == null || checkOut.isBefore(checkIn)) {
+            throw new IllegalArgumentException("Invalid check-in/check-out dates");
+        }
+
+        if (guestRequirement <= 0) {
+            throw new IllegalArgumentException("Invalid guest requirement");
+        }
+
+        return roomRepository.findAvailableRooms(checkIn, checkOut)
+                .stream()
+                .map(this::roomToRoomDetailedDto)
+                .filter(room -> room.getCapacity() >= guestRequirement)
+                .toList();
     }
 
 }
