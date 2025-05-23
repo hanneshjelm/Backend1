@@ -53,4 +53,10 @@ public class RoomControllerTest {
                 .andExpect(model().attribute("allRooms", hasSize(6)))
                 .andReturn();
     }
+
+    @Test//FIXA? Eller dubbelt i serviceImplTest?
+    public void getRoomById() throws Exception {
+      mockMvc.perform(get("rooms/{id}"))
+              .andReturn();
+    }
 }
