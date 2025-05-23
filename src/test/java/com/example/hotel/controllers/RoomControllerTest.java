@@ -23,7 +23,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.hamcrest.Matchers.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -61,4 +60,6 @@ public class RoomControllerTest {
                 .andExpect(model().attribute("allRooms", hasSize(6)))
                 .andReturn();
     }
+
+
 }

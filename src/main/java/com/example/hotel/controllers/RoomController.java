@@ -30,7 +30,10 @@ public class RoomController {
     }
 
     @GetMapping("/{id}")
-    public RoomDetailedDto getRoomById(@PathVariable long id) {
+    public RoomDetailedDto getRoomById(@PathVariable long id, Model model) {
+        RoomDetailedDto currentRoom = roomService.getRoomById(id);
+        model.addAttribute("room", currentRoom);
+
         return roomService.getRoomById(id);
     }
 
