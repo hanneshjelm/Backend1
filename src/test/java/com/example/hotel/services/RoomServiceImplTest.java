@@ -71,4 +71,15 @@ public class RoomServiceImplTest {
         assertEquals(2, actual3);
     }
 
+    @Test
+    public void totalCapacity() throws Exception {
+        int actual1 = roomServiceImpl.totalCapacity(room1);
+        int actual2 = roomServiceImpl.totalCapacity(room2);
+        int actual3 = roomServiceImpl.totalCapacity(room3);
+
+        assertEquals(1, actual1);
+        assertEquals(3, actual2);
+        assertEquals(4, actual3);
+    }
+
 }
