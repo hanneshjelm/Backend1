@@ -90,6 +90,7 @@ public class RoomServiceImpl implements RoomService {
         return roomRepository.findAvailableRooms(checkIn, checkOut)
                 .stream()
                 .map(this::roomToRoomDetailedDto)
+                .filter(room -> room.getCapacity() >= guestRequirement)
                 .toList();
     }
 
