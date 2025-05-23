@@ -29,7 +29,7 @@ public class BookingController {
     }
 
     @RequestMapping("bookings/{id}")
-    public BookingDetailedDto getBooking(@PathVariable Long id) {
+    public Booking getBooking(@PathVariable Long id) {
         return bookingService.findBookingById(id);
     }
 

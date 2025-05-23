@@ -14,7 +14,7 @@ public interface BookingService {
 
     public List<BookingDto> getAllBookings();
 
-    public BookingDetailedDto findBookingById(Long id);
+    public Booking findBookingById(Long id);
 
     public String updateBooking(BookingDetailedDto bookingDetailedDto);
 

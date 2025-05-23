@@ -34,11 +34,6 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingDetailedDto findBookingById(Long id) {
-        return bookingToBookingDetailedDto(bookingRepository.findById(id).get());
-    }
-
-    @Override
     public String updateBooking(BookingDetailedDto b) {
         Booking existingBooking = bookingRepository.findById(b.getId()).orElse(null);
         Customer customer = customerRepository.findById(b.getCustomer().getId()).orElse(null);
@@ -103,10 +98,12 @@ public class BookingServiceImpl implements BookingService {
                 .build(); }
 */
 
-
+    @Override
     public Booking findBookingById(Long id) {
         return bookingRepository.findById(id).orElse(null);
     }
+
+
 
 
 }
