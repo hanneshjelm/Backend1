@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/customers")
 public class CustomerController {
 
+    private static final Logger log = Logger.getLogger(BookingController.class.getName());
     @Autowired
     private CustomerServiceImpl customerService;
     @Autowired
@@ -63,12 +65,14 @@ public class CustomerController {
 
     @GetMapping("/customerBooking")
     public String showForm( @ModelAttribute("booking") BookingDetailedDto bookingForm,
-            @RequestParam Long roomId, Model model
+            Model model
     ) {
        // BookingDto booking = new BookingDto();
         //@ModelAttribute ("customer") CustomerDetailedDto customer,
         CustomerDto customer= new CustomerDto();
+        log.info(String.valueOf(bookingForm.getRoom().getId()));
         bookingForm.setRoom(roomService.getRoomById2(bookingForm.getRoom().getId()));
+        //Room room = roomRepository.findById(bookingDetailedDto.getRoom().getId()).orElse(null);
         //customer.setBookings((List<BookingDto>) bookingForm);
         //model.addAttribute("booking", bookingForm);
         model.addAttribute("customer", customer);

@@ -17,7 +17,7 @@ public interface RoomService {
 
     public List<RoomDto> getAllRooms();
 
-    public RoomDetailedDto getRoomById(long id);
+    public Room getRoomById(long id);
 
     public List<RoomDetailedDto> getAvailableRooms (BookingDetailedDto b);
     public RoomDto getRoomById2(long id);

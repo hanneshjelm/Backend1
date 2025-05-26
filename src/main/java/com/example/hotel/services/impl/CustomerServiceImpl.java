@@ -3,6 +3,7 @@ import com.example.hotel.dtos.CustomerDetailedDto;
 import com.example.hotel.dtos.CustomerDto;
 import com.example.hotel.models.Customer;
 import com.example.hotel.repos.CustomerRepository;
+import com.example.hotel.services.BookingService;
 import com.example.hotel.services.CustomerService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,11 @@ import java.util.List;
 
 public class CustomerServiceImpl implements CustomerService {
 
-    private final BookingServiceImpl bookingServiceImpl;
+    private final BookingService bookingService;
     private final CustomerRepository customerRepository;
 
-    public CustomerServiceImpl(BookingServiceImpl bookingServiceImpl, CustomerRepository customerRepository) {
-        this.bookingServiceImpl = bookingServiceImpl;
+    public CustomerServiceImpl(BookingService bookingService, CustomerRepository customerRepository) {
+        this.bookingService = bookingService;
         this.customerRepository = customerRepository;
     }
 
@@ -54,7 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
         return CustomerDetailedDto.builder().id(c.getId()).name(c.getName())
                 .email(c.getEmail()).phoneNumber(c.getPhoneNumber())
                 .bookings(c.getBookings().stream()
-                        .map(bookingServiceImpl::bookingToBookingDto).toList()).build();
+                        .map(bookingService::bookingToBookingDto).toList()).build();
 
     }
 
@@ -63,7 +64,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         return Customer.builder().id(c.getId()).name(c.getName()).email(c.getEmail())
                 .phoneNumber(c.getPhoneNumber()).bookings(c.getBookings().stream()
-                        .map(bookings -> bookingServiceImpl.findBookingById(bookings.getId())).toList()).build();
+                        .map(bookings -> bookingService.findBookingById(bookings.getId())).toList()).build();
     }
 
     public Customer customerDtoToCustomer(CustomerDto c) {

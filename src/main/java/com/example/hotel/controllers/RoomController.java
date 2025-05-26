@@ -23,7 +23,12 @@ public class RoomController {
 
     @GetMapping("/rooms/{id}")
     public RoomDetailedDto getRoomById(@PathVariable long id) {
-        return roomService.getRoomById(id);
+
+       return null;
+       // return roomService.getRoomById(id);
+
+
+
     }
 
 }

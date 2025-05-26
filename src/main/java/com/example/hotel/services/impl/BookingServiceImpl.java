@@ -13,6 +13,7 @@ import com.example.hotel.repos.RoomRepository;
 import com.example.hotel.repos.CustomerRepository;
 import com.example.hotel.services.BookingService;
 import com.example.hotel.services.CustomerService;
+import com.example.hotel.services.RoomService;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +26,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
-    private final CustomerRepository customerRepository;
-    private final RoomRepository roomRepository;
+    private final CustomerService customerService;
+    private final RoomService roomService;
 
     @Override
     public List<BookingDto> getAllBookings() {
@@ -36,8 +37,8 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public String updateBooking(BookingDetailedDto b) {
         Booking existingBooking = bookingRepository.findById(b.getId()).orElse(null);
-        Customer customer = customerRepository.findById(b.getCustomer().getId()).orElse(null);
-        Room room = roomRepository.findById(b.getRoom().getId()).orElse(null);
+        Customer customer = customerService.findCustomerById(b.getCustomer().getId());
+        Room room = roomService.getRoomById(b.getRoom().getId());
 
         if (existingBooking != null) {
             existingBooking.setRoom(room);
@@ -55,8 +56,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public String createBooking(BookingDetailedDto bookingDetailedDto) {
-        Customer customer = customerRepository.findById(bookingDetailedDto.getCustomer().getId()).orElse(null);
-        Room room = roomRepository.findById(bookingDetailedDto.getRoom().getId()).orElse(null);
+        Customer customer = customerService.findCustomerById(bookingDetailedDto.getCustomer().getId());
+        Room room = roomService.getRoomById(bookingDetailedDto.getRoom().getId());
 
         if (customer == null) {
             return "Customer not found";
