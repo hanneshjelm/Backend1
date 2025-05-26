@@ -45,7 +45,7 @@ public class RoomControllerTest {
     }
 
     @Test
-    public void getAllRooms() throws Exception {
+    public void getAllRoomsTest() throws Exception {
         mockMvc.perform(get("/rooms/all"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("rooms"))
@@ -54,9 +54,12 @@ public class RoomControllerTest {
                 .andReturn();
     }
 
-    @Test//FIXA? Eller dubbelt i serviceImplTest?
-    public void getRoomById() throws Exception {
+    @Test //Behöver testas!
+    public void getRoomByIdTest() throws Exception {
       mockMvc.perform(get("rooms/{id}"))
+              .andExpect(status().isOk())
+              .andExpect(view().name("room"))
+              .andExpect(model().attributeExists("room"))
               .andReturn();
     }
 }

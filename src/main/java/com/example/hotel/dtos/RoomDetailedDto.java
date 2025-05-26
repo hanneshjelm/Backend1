@@ -1,6 +1,5 @@
 package com.example.hotel.dtos;
 
-import com.example.hotel.enums.RoomType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,5 +21,4 @@ public class RoomDetailedDto {
 
     private int extraBeds;
     private int capacity;
-
 }
