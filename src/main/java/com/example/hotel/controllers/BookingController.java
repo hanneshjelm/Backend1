@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,6 +23,8 @@ public class BookingController {
     private final BookingRepository bookingRepository;
     private final RoomService roomService;
     private final CustomerService customerService;
+    private static final Logger log = Logger.getLogger(BookingController.class.getName());
+
 
     @RequestMapping("bookings")
     public String getAllBookings(Model model) {
@@ -90,14 +93,18 @@ public class BookingController {
         CustomerDto dto = customerService.findByPhoneNumber(customer.getPhoneNumber());
         if (dto != null) {
         booking.setCustomer(dto);
-        createBooking(booking, model);
+        bookingService.createBooking(booking);
+        //createBooking(booking, model);
             System.out.println("yaass queen");
         } else {
         //CustomerDto customerDto=customerService.createCustomer(customer);
+        customerService.createCustomer(customer);
         CustomerDto customerDto = customerService.findByPhoneNumber(customer.getPhoneNumber());
 
         booking.setCustomer(customerDto);
-        createBooking(booking, model);
+        log.info(customerDto.getId().toString());
+        //createBooking(booking, model);
+        bookingService.createBooking(booking);
         //booking.setRoom(roomService.getRoomById(booking.getRoom().getId()));
             System.out.println("yasss bich");
         }

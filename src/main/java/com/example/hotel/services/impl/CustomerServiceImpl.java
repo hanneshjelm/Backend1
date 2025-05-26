@@ -4,6 +4,7 @@ import com.example.hotel.dtos.CustomerDto;
 import com.example.hotel.models.Customer;
 import com.example.hotel.repos.CustomerRepository;
 import com.example.hotel.services.CustomerService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @Service
+
 public class CustomerServiceImpl implements CustomerService {
 
     private final BookingServiceImpl bookingServiceImpl;
@@ -21,22 +23,16 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerRepository = customerRepository;
     }
 
-
-    @PostMapping
-    public Customer createCustomer(@RequestBody Customer customer) {
-        return customerRepository.save(customer);
-    }
-
     @Override
     public List<CustomerDetailedDto> getAllCustomers() {
         return customerRepository.findAll().stream().map(this::customerToCustomerDetailedDto).toList();
     }
 
     @Override
-    public CustomerDto createCustomer(CustomerDto c) {
-        Customer newCustomer=customerRepository.save(customerDtoToCustomer(c));
-        customerRepository.flush();
-        return customerToCustomerDto(newCustomer);
+    //@Transactional
+    public String createCustomer(CustomerDto c) {
+        customerRepository.save(customerDtoToCustomer(c));
+        return "customerToCustomerDto(newCustomer)";
     }
 
     @Override
