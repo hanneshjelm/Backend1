@@ -93,7 +93,7 @@ public class BookingController {
         createBooking(booking, model);
             System.out.println("yaass queen");
         } else {
-        customerService.createCustomer(customer);
+        //CustomerDto customerDto=customerService.createCustomer(customer);
         CustomerDto customerDto = customerService.findByPhoneNumber(customer.getPhoneNumber());
 
         booking.setCustomer(customerDto);

@@ -33,9 +33,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public String createCustomer(CustomerDto c) {
-        customerRepository.save(customerDtoToCustomer(c));
-        return "Customer saved";
+    public CustomerDto createCustomer(CustomerDto c) {
+        Customer newCustomer=customerRepository.save(customerDtoToCustomer(c));
+        customerRepository.flush();
+        return customerToCustomerDto(newCustomer);
     }
 
     @Override

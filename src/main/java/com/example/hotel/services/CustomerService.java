@@ -20,6 +20,6 @@ public interface CustomerService {
     public String updateCustomer(CustomerDetailedDto c);
     public CustomerDto findByPhoneNumber(String phoneNumber);
     public Customer customerDtoToCustomer(CustomerDto c);
-    public String createCustomer(CustomerDto c);
+    public CustomerDto createCustomer(CustomerDto c);
 
 }
