@@ -25,7 +25,7 @@ public class CustomerController {
     private BookingService bookingService;
 
 
-    @RequestMapping("all")
+    @RequestMapping("/all")
     public String getAllBookings(Model model) {
         List<CustomerDetailedDto> customers = customerService.getAllCustomers();
         model.addAttribute("customers", customers);
@@ -91,6 +91,18 @@ public class CustomerController {
     @PostMapping("/update")
     public String updateCustomer(CustomerDetailedDto customerDetailedDto) {
         customerService.updateCustomer(customerDetailedDto);
+        return "redirect:/customers/all";
+    }
+
+    @GetMapping("/createForm")
+    public String createCustomerForm(Model model) {
+        model.addAttribute("customer", new CustomerDetailedDto());
+        return "createCustomerForm";
+    }
+
+    @PostMapping("/create")
+    public String createCustomer(CustomerDetailedDto customerDetailedDto) {
+        customerService.createCustomer(customerDetailedDto);
         return "redirect:/customers/all";
     }
 

@@ -20,7 +20,7 @@ public class PageTestController {
     @GetMapping("/test")
     public String showForm(Model model) {
         model.addAttribute("customer", new Customer());
-        return "test";
+        return "createCustomerForm";
     }
 
     @PostMapping("/register")
@@ -30,7 +30,7 @@ public class PageTestController {
             Model model
     ) {
         if (result.hasErrors()) {
-            return "test";
+            return "createCustomerForm";
         }
 
         customerRepository.save(customer);
