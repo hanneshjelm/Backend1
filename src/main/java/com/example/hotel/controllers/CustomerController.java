@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/customers")
 public class CustomerController {
 
@@ -56,21 +57,15 @@ public class CustomerController {
 
 
     @GetMapping("/customerBooking")
-    public String showForm(
-            @RequestParam Long roomId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkInDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOutDate,
-            @RequestParam int guests,
+    public String showForm( @ModelAttribute("booking") BookingDto bookingForm,
+            @ModelAttribute ("customer") CustomerDetailedDto customer,
             Model model
     ) {
-        BookingDto booking = new BookingDto();
-        booking.setRoomId(roomId);
-        booking.setCheckInDate(checkInDate);
-        booking.setCheckOutDate(checkOutDate);
-        booking.setGuests(guests);
+       // BookingDto booking = new BookingDto();
 
-        model.addAttribute("booking", booking);
-        model.addAttribute("customer", new CustomerDetailedDto());
+
+        model.addAttribute("booking", bookingForm);
+        model.addAttribute("customer", customer);
 
         return "customerForBooking";
     }
