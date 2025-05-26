@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Customer Details</title>
+</head>
+<body>
+<h2>Customer Details:</h2>
+
+<div th:if="${errorMessage}" style="color: red;">
+  <p th:text="${errorMessage}"></p>
+</div>
+
+<table>
+  <tr>
+    <th>ID:</th>
+    <td th:text="${customerDetailedDto.id}"></td>
+  </tr>
+  <tr>
+    <th>Name:</th>
+    <td th:text="${customerDetailedDto.name}"></td>
+  </tr>
+  <tr>
+    <th>Email:</th>
+    <td th:text="${customerDetailedDto.email}"></td>
+  </tr>
+  <tr>
+    <th>Phone Number:</th>
+    <td th:text="${customerDetailedDto.phoneNumber}"></td>
+  </tr>
+  <tr>
+    <th>Bookings:</th>
+    <td>
+      <table>
+        <tr>
+          <th>ID |</th>
+          <th>Check in date |</th>
+          <th>Check out date |</th>
+          <th>Guests</th>
+        </tr>
+        <tr th:each="booking : ${customerDetailedDto.bookings}">
+          <td th:text="${booking.id}"></td>
+          <td th:text="${booking.checkInDate}"></td>
+          <td th:text="${booking.checkOutDate}"></td>
+          <td th:text="${booking.guests}"></td>
+          <td>
+            <a th:href="@{/bookings/{id}(id=${booking.id})}">View</a> |
+            <a th:href="@{/bookings/{id}/update(id=${booking.id})}">Update</a> |
+            <a th:href="@{/bookings/{id}/delete(id=${booking.id})}">Delete</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<a th:href="@{/customers/{id}/update(id=${customerDetailedDto.id})}">Update Customer</a> |
+<a href="/customers/all">Back to All Customers</a> |
+<a th:href="@{/customers/deleteCustomerFromDetails/{id}(id=${customerDetailedDto.id})}">Delete Customer</a>
+</body>
+</html>
