@@ -1,5 +1,6 @@
 package com.example.hotel.services.impl;
 
+import com.example.hotel.dtos.BookingDto;
 import com.example.hotel.dtos.RoomDetailedDto;
 import com.example.hotel.dtos.RoomDto;
 import com.example.hotel.enums.RoomType;
