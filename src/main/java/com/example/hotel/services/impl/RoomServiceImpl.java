@@ -1,9 +1,9 @@
 package com.example.hotel.services.impl;
 
-import com.example.hotel.dtos.BookingDto;
 import com.example.hotel.dtos.RoomDetailedDto;
 import com.example.hotel.dtos.RoomDto;
 import com.example.hotel.enums.RoomType;
+import com.example.hotel.models.Booking;
 import com.example.hotel.models.Room;
 import com.example.hotel.repos.RoomRepository;
 import com.example.hotel.services.BookingService;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -42,8 +43,14 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDetailedDto roomToRoomDetailedDto(Room roomEntity) {
+
+        List<Booking> bookings = roomEntity.getBookings();
+        if(bookings == null || bookings.isEmpty()){
+            bookings = Collections.emptyList();
+        }
+
         RoomDetailedDto roomDetailedDto = RoomDetailedDto.builder().id(roomEntity.getId()).roomNumber(roomEntity.getRoomNumber())
-                .size(roomEntity.getSize()).roomTypeString(roomEntity.getRoomType().getType()).bookings(roomEntity.getBookings()
+                .size(roomEntity.getSize()).roomTypeString(roomEntity.getRoomType().getType()).bookings(bookings
                         .stream().map(booking -> bookingService.bookingToBookingDto(booking)).toList()).build();
 
         roomDetailedDto.setExtraBeds(amountOfExtraBeds(roomEntity));
