@@ -75,6 +75,16 @@ public class BookingServiceImpl implements BookingService {
         return "Booking created";
     }
 
+    @Override
+    public boolean deleteBooking(Long id) {
+        Booking bookingToDelete = bookingRepository.findById(id).orElse(null);
+        if(bookingToDelete != null) {
+            bookingRepository.delete(bookingToDelete);
+            return true;
+        }
+        return false;
+    }
+
 
     @Override
     public BookingDto bookingToBookingDto(Booking b) {
@@ -102,8 +112,6 @@ public class BookingServiceImpl implements BookingService {
     public Booking findBookingById(Long id) {
         return bookingRepository.findById(id).orElse(null);
     }
-
-
 
 
 }

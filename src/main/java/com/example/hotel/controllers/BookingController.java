@@ -5,14 +5,12 @@ import com.example.hotel.dtos.BookingDto;
 import com.example.hotel.dtos.RoomDetailedDto;
 import com.example.hotel.dtos.BookingDto;
 import com.example.hotel.models.Booking;
-import com.example.hotel.repos.BookingRepository;
 import com.example.hotel.services.BookingService;
 import com.example.hotel.services.CustomerService;
 import com.example.hotel.services.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookingController {
     private final BookingService bookingService;
-    private final BookingRepository bookingRepository;
+    //private final BookingRepository bookingRepository;
     private final RoomService roomService;
     private final CustomerService customerService;
 
@@ -44,9 +42,12 @@ public class BookingController {
     }
 
     @RequestMapping("bookings/{id}/delete")
-    public String deleteBooking(@PathVariable Long id) {
-        bookingRepository.deleteById(id);
-        return "redirect:/bookings";
+    public String deleteBooking(@PathVariable Long id, Model model) {
+        if (bookingService.deleteBooking(id)){
+            return "redirect:/bookings";
+        }
+        model.addAttribute("error", "Booking with that id not found");
+        return "bookings";
     }
 
     @RequestMapping ("bookings/{id}/update")

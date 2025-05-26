@@ -20,4 +20,6 @@ public interface BookingService {
 
     public String createBooking(BookingDetailedDto bookingDetailedDto);
 
+    public boolean deleteBooking(Long id);
+
 }

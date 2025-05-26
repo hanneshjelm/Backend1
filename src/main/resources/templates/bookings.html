@@ -7,6 +7,7 @@
 <body>
 <h1>All Bookings</h1>
 <table>
+    <p th:if="${error}" th:text="${error}" style="color:red;"></p>
     <tr>
         <th>ID</th>
         <th>Check in date</th>
