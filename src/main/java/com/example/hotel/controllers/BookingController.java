@@ -108,7 +108,7 @@ public class BookingController {
         //booking.setRoom(roomService.getRoomById(booking.getRoom().getId()));
             System.out.println("yasss bich");
         }
-        return "";
+        return "bookingResult";
     }
     /* public Booking(Customer customer, Room room, LocalDate checkInDate, LocalDate checkOutDate, int guests) {
         this.customer = customer;

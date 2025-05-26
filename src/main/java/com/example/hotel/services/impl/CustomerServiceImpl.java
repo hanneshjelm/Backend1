@@ -29,10 +29,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    //@Transactional
+    @Transactional
     public String createCustomer(CustomerDto c) {
         customerRepository.save(customerDtoToCustomer(c));
-        return "customerToCustomerDto(newCustomer)";
+        return "Success";
     }
 
     @Override
@@ -43,7 +43,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto customerToCustomerDto(Customer c) {
-        return null;
+        return CustomerDto.builder().id(c.getId()).name(c.getName())
+                .email(c.getEmail()).phoneNumber(c.getPhoneNumber())
+                .build();
+
     }
 
     @Override

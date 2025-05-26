@@ -68,7 +68,7 @@ public class CustomerController {
        // BookingDto booking = new BookingDto();
         //@ModelAttribute ("customer") CustomerDetailedDto customer,
         CustomerDto customer= new CustomerDto();
-        bookingForm.setRoom(roomService.getRoomById2(roomId));
+        bookingForm.setRoom(roomService.getRoomById2(bookingForm.getRoom().getId()));
         //customer.setBookings((List<BookingDto>) bookingForm);
         //model.addAttribute("booking", bookingForm);
         model.addAttribute("customer", customer);
