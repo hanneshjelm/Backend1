@@ -24,7 +24,7 @@ public class Customer {
     private Long id;
 
     @Pattern(regexp="^[A-Öa-ö ]*$", message="only letters for customer name")
-    @Size(min=3, message="atleast 3 characters"
+    @Size(min=3, message="At least 3 characters"
     )
     private String name;
 
