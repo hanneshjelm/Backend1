@@ -21,7 +21,6 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerRepository = customerRepository;
     }
 
-
     @PostMapping
     public Customer createCustomer(@RequestBody Customer customer) {
         return customerRepository.save(customer);
@@ -83,5 +82,14 @@ public class CustomerServiceImpl implements CustomerService {
             return "Customer not found";
         }
 
+    }
+
+    @Override
+    public List<CustomerDetailedDto> findCustomerByEmail(String email) {
+        List<Customer> customers = customerRepository.findByEmailContainingIgnoreCase(email);
+        if(customers.isEmpty()) {
+            return List.of();
+        }
+        return customers.stream().map(this::customerToCustomerDetailedDto).toList();
     }
 }

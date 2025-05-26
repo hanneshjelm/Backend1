@@ -9,6 +9,7 @@ import com.example.hotel.models.Customer;
 import com.example.hotel.repos.CustomerRepository;
 import com.example.hotel.services.BookingService;
 import com.example.hotel.services.impl.CustomerServiceImpl;
+import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -47,6 +48,13 @@ public class CustomerController {
             return "customerDetails";
         }
         return "redirect:/customers/all";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam("keyword") @Email String keyword, Model model) {
+        List<CustomerDetailedDto> customers = customerService.findCustomerByEmail(keyword);
+        model.addAttribute("customers", customers);
+        return "customers";
     }
 
 

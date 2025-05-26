@@ -23,4 +23,6 @@ public interface CustomerService {
 
     public String updateCustomer(CustomerDetailedDto c);
 
+    public List<CustomerDetailedDto> findCustomerByEmail(String email);
+
 }

@@ -7,18 +7,25 @@
 <body>
 <h1>All Customers</h1>
 
+<form th:action="@{/customers/search}" method="get">
+    <input type="text" name="keyword" placeholder="Search for email" />
+    <button type="submit">Search</button>
+</form>
+
+<div th:if="${#lists.isEmpty(customers)}">No customers found</div>
+
 <div th:if="${errorMessage}" style="color: red;">
     <p th:text="${errorMessage}"></p>
 </div>
 
 <table>
-    <tr>
+    <tr th:if="${not #lists.isEmpty(customers)}">
         <th>ID</th>
         <th>Name</th>
         <th>Email</th>
         <th>Phone Number</th>
     </tr>
-    <tr th:each="customer : ${customers}">
+    <tr th:each="customer : ${customers}" th:if="${not #lists.isEmpty(customers)}">
         <td th:text="${customer.id}"></td>
         <td th:text="${customer.name}"></td>
         <td th:text="${customer.email}"></td>
