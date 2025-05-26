@@ -17,6 +17,10 @@
         <td th:text="${room.id}"></td>
         <td th:text="${room.roomNumber}"></td>
         <td th:text="${room.capacity}"></td>
+        <td>
+            <a th:href="@{|/customerBooking?roomId=${room.id}&checkInDate=${booking.checkInDate}
+            &checkOutDate=${booking.checkOutDate}&guests=${booking.guests}|}">Create booking</a>
+        </td>
     </tr>
 </table>
 </body>

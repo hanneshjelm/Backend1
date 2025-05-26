@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Test</title>
+</head>
+<body>
+<h2>Registrera</h2>
+<form th:action="@{/register}" th:object="${customer}" method="post">
+
+    <p th:if="${error}" th:text="${error}" style="color:red;"></p>
+
+    <label for="name">Fulla namnet:</label>
+    <input type="text" th:field="*{name}" id="name" required><br><br>
+
+    <label for="email">email:</label>
+    <input type="email" th:field="*{email}" id="email" required><br><br>
+
+    <label for="phonenumber">number:</label>
+        <input type="tel" th:field="*{phoneNumber}" id="phonenumber" required><br><br>
+
+    <button type="submit">Register booking</button>
+</form>
+
+
+
+<a href="/register">Registrera</a>
+</body>
+</html>
