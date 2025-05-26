@@ -29,6 +29,7 @@ public class RoomController {
         return "rooms";
     }
 
+    //Behövs ej?
     @GetMapping("/{id}")
     public RoomDetailedDto getRoomById(@PathVariable long id, Model model) {
         RoomDetailedDto currentRoom = roomService.getRoomById(id);
