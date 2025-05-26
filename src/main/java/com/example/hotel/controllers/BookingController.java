@@ -49,6 +49,12 @@ public class BookingController {
         return "redirect:/bookings";
     }
 
+    @RequestMapping("bookings/{id}/deleteFromCustomer/{customerId}")
+    public String deleteBooking2(@PathVariable Long id, @PathVariable Long customerId) {
+        bookingRepository.deleteById(id);
+        return "redirect:/customers/{customerId}";
+    }
+
     @RequestMapping ("bookings/{id}/update")
     public String updateBooking(@PathVariable Long id, Model model) {
         Booking booking = bookingService.findBookingById(id);

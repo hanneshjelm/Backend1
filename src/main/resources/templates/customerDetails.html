@@ -45,7 +45,8 @@
           <td>
             <a th:href="@{/bookings/{id}(id=${booking.id})}">View</a> |
             <a th:href="@{/bookings/{id}/update(id=${booking.id})}">Update</a> |
-            <a th:href="@{/bookings/{id}/delete(id=${booking.id})}">Delete</a>
+            <a th:href="@{/bookings/{id}/deleteFromCustomer/{customerId}(id=${booking.id}, customerId=${customerDetailedDto.id})}">Delete</a>
+
           </td>
         </tr>
       </table>
