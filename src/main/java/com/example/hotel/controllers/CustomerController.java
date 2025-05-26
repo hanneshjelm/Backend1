@@ -72,7 +72,7 @@ public class CustomerController {
         model.addAttribute("booking", booking);
         model.addAttribute("customer", new CustomerDetailedDto());
 
-        return "test";
+        return "customerForBooking";
     }
 
 }
