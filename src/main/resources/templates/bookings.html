@@ -6,8 +6,11 @@
 </head>
 <body>
 <h1>All Bookings</h1>
-<table>
-    <p th:if="${error}" th:text="${error}" style="color:red;"></p>
+<p th:if="${error}" th:text="${error}" style="color:red;"></p>
+<div th:if="${error}">
+    <a th:href="@{/bookings}">Back to bookings</a>
+</div>
+<table th:unless="${error}">
     <tr>
         <th>ID</th>
         <th>Check in date</th>
