@@ -1,5 +1,6 @@
 package com.example.hotel.services.impl;
 
+import com.example.hotel.dtos.BookingDetailedDto;
 import com.example.hotel.dtos.BookingDto;
 import com.example.hotel.dtos.RoomDetailedDto;
 import com.example.hotel.dtos.RoomDto;
@@ -33,6 +34,10 @@ public class RoomServiceImpl implements RoomService {
 
     public RoomDetailedDto getRoomById(long id) {
         return roomToRoomDetailedDto(roomRepository.findById(id).orElseThrow()); //Behöver checka denna metod om rum inte hittas
+    }
+
+    public RoomDto getRoomById2(long id) {
+        return roomToRoomDto(roomRepository.findById(id).orElseThrow()); //Behöver checka denna metod om rum inte hittas
     }
 
     @Override
@@ -73,7 +78,7 @@ public class RoomServiceImpl implements RoomService {
         return room.getRoomType().getValue();
     }
 
-    public List<RoomDetailedDto> getAvailableRooms (BookingDto b) {
+    public List<RoomDetailedDto> getAvailableRooms (BookingDetailedDto b) {
 
         LocalDate checkIn = b.getCheckInDate();
         LocalDate checkOut = b.getCheckOutDate();

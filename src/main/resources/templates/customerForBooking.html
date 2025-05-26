@@ -5,7 +5,7 @@
 </head>
 <body>
 <h2>Registrera</h2>
-<form th:action="@{/register}" th:object="${customer}" method="post">
+<form th:action="@{/registerBooking}" th:object="${customer}" method="post">
 
     <p th:if="${error}" th:text="${error}" style="color:red;"></p>
 
@@ -23,6 +23,6 @@
 
 
 
-<a href="/register">Registrera</a>
+<a href="bookings/create">Registrera</a>
 </body>
 </html>

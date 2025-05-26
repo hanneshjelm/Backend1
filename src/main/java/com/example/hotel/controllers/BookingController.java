@@ -1,8 +1,6 @@
 package com.example.hotel.controllers;
 
-import com.example.hotel.dtos.BookingDetailedDto;
-import com.example.hotel.dtos.BookingDto;
-import com.example.hotel.dtos.RoomDetailedDto;
+import com.example.hotel.dtos.*;
 import com.example.hotel.dtos.BookingDto;
 import com.example.hotel.models.Booking;
 import com.example.hotel.repos.BookingRepository;
@@ -63,23 +61,20 @@ public class BookingController {
     }
 
     @GetMapping("bookings/create")
-    public String createBooking(@ModelAttribute("booking") BookingDto bookingForm, Model model) {
-        model.addAttribute("booking", new BookingDetailedDto());
-        model.addAttribute("customers", customerService.getAllCustomers());
-        model.addAttribute("rooms", roomService.getAllRooms());
-
+    public String createBooking(@ModelAttribute("booking") BookingDetailedDto bookingForm, Model model) {
+        bookingService.createBooking(bookingForm);
         return "bookingResult";
     }
 
     @GetMapping("/searchAvailableRooms")
     public String showSearchForm(Model model) {
-        model.addAttribute("booking", new BookingDto());
+        model.addAttribute("booking", new BookingDetailedDto());
         return "roomSearch";
     }
 
     @PostMapping("/searchAvailableRooms")
     public String searchAvailableRooms(
-            @ModelAttribute("booking") BookingDto bookingForm,
+            @ModelAttribute("booking") BookingDetailedDto bookingForm,
             Model model
     ) {
         List<RoomDetailedDto> availableRooms = roomService.getAvailableRooms(bookingForm);
@@ -87,4 +82,32 @@ public class BookingController {
         model.addAttribute("rooms", availableRooms);
         return "availableRooms";
     }
+
+    @PostMapping("registerBooking")
+    public String registerBooking(@ModelAttribute("customer")CustomerDto customer,
+                                  @ModelAttribute("booking")BookingDetailedDto booking ,Model model) {
+
+        CustomerDto dto = customerService.findByPhoneNumber(customer.getPhoneNumber());
+        if (dto != null) {
+        booking.setCustomer(dto);
+        createBooking(booking, model);
+            System.out.println("yaass queen");
+        } else {
+        customerService.createCustomer(customer);
+        CustomerDto customerDto = customerService.findByPhoneNumber(customer.getPhoneNumber());
+
+        booking.setCustomer(customerDto);
+        createBooking(booking, model);
+        //booking.setRoom(roomService.getRoomById(booking.getRoom().getId()));
+            System.out.println("yasss bich");
+        }
+        return "";
+    }
+    /* public Booking(Customer customer, Room room, LocalDate checkInDate, LocalDate checkOutDate, int guests) {
+        this.customer = customer;
+        this.room = room;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.guests = guests;
+    }*/
 }

@@ -33,11 +33,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public String createCustomer(CustomerDetailedDto c) {
-        customerRepository.save(customerDetailedDtoToCustomer(c));
+    public String createCustomer(CustomerDto c) {
+        customerRepository.save(customerDtoToCustomer(c));
         return "Customer saved";
     }
 
+    @Override
+    public CustomerDto findByPhoneNumber(String phoneNumber) {
+        //customerRepository.findByPhoneNumber(phoneNumber);
+        return customerRepository.findByPhoneNumber(phoneNumber).map(this::customerToCustomerDto).orElse(null);
+    }
 
     @Override
     public CustomerDto customerToCustomerDto(Customer c) {
@@ -59,6 +64,12 @@ public class CustomerServiceImpl implements CustomerService {
         return Customer.builder().id(c.getId()).name(c.getName()).email(c.getEmail())
                 .phoneNumber(c.getPhoneNumber()).bookings(c.getBookings().stream()
                         .map(bookings -> bookingServiceImpl.findBookingById(bookings.getId())).toList()).build();
+    }
+
+    public Customer customerDtoToCustomer(CustomerDto c) {
+
+        return Customer.builder().name(c.getName()).email(c.getEmail())
+                .phoneNumber(c.getPhoneNumber()).build();
     }
 
     //kan ta bort denna om inte room eller booking ska ha builders

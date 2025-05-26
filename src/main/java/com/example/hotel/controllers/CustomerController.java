@@ -1,9 +1,12 @@
 package com.example.hotel.controllers;
 
+import com.example.hotel.dtos.BookingDetailedDto;
 import com.example.hotel.dtos.BookingDto;
 import com.example.hotel.dtos.CustomerDetailedDto;
+import com.example.hotel.dtos.CustomerDto;
 import com.example.hotel.models.Customer;
 import com.example.hotel.repos.CustomerRepository;
+import com.example.hotel.services.RoomService;
 import com.example.hotel.services.impl.CustomerServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,8 @@ public class CustomerController {
     private CustomerServiceImpl customerService;
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private RoomService roomService;
 
 
 
@@ -57,16 +62,17 @@ public class CustomerController {
 
 
     @GetMapping("/customerBooking")
-    public String showForm( @ModelAttribute("booking") BookingDto bookingForm,
-            @ModelAttribute ("customer") CustomerDetailedDto customer,
-            Model model
+    public String showForm( @ModelAttribute("booking") BookingDetailedDto bookingForm,
+            @RequestParam Long roomId, Model model
     ) {
        // BookingDto booking = new BookingDto();
-
-
-        model.addAttribute("booking", bookingForm);
+        //@ModelAttribute ("customer") CustomerDetailedDto customer,
+        CustomerDto customer= new CustomerDto();
+        bookingForm.setRoom(roomService.getRoomById2(roomId));
+        //customer.setBookings((List<BookingDto>) bookingForm);
+        //model.addAttribute("booking", bookingForm);
         model.addAttribute("customer", customer);
-
+        model.addAttribute("booking", bookingForm);
         return "customerForBooking";
     }
 
