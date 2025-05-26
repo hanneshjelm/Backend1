@@ -5,11 +5,15 @@
     <title>Title</title>
 </head>
 <body>
-<th th:text="${room.roomNumber}" />
+<th th:text="${room.getRoomNumber()}" />
 
-<p th:text="'Favourite: '+${bestBook}+ '!'" />
+<p th:text="${room.getRoomTypeString()}" />
 
-<p th:text="'Favourite: '+${harry.grade}+ '!'" />
+<p th:text="${room.getSize()}"/>
+
+<p th:text="${room.getCapacity()}" />
+
+<p th:text="${room.getExtraBeds()}"/>
 
 
 </body>

@@ -31,11 +31,11 @@ public class RoomController {
 
     //Behövs ej?
     @GetMapping("/{id}")
-    public RoomDetailedDto getRoomById(@PathVariable long id, Model model) {
+    public String getRoomById(@PathVariable long id, Model model) {
         RoomDetailedDto currentRoom = roomService.getRoomById(id);
         model.addAttribute("room", currentRoom);
 
-        return roomService.getRoomById(id);
+        return "detailedRoom";
     }
 
 }
