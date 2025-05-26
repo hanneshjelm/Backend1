@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -77,14 +78,13 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public boolean deleteBooking(Long id) {
-        Booking bookingToDelete = bookingRepository.findById(id).orElse(null);
-        if(bookingToDelete != null) {
-            bookingRepository.delete(bookingToDelete);
+        Optional<Booking> bookingToDelete = bookingRepository.findById(id);
+        if(bookingToDelete.isPresent()) {
+            bookingRepository.delete(bookingToDelete.get());
             return true;
         }
         return false;
     }
-
 
     @Override
     public BookingDto bookingToBookingDto(Booking b) {
@@ -109,9 +109,7 @@ public class BookingServiceImpl implements BookingService {
 */
 
     @Override
-    public Booking findBookingById(Long id) {
-        return bookingRepository.findById(id).orElse(null);
+    public Optional<BookingDetailedDto> findBookingById(Long id) {
+        return bookingRepository.findById(id).map(this::bookingToBookingDetailedDto);
     }
-
-
 }

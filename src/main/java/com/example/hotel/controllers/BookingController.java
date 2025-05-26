@@ -3,8 +3,6 @@ package com.example.hotel.controllers;
 import com.example.hotel.dtos.BookingDetailedDto;
 import com.example.hotel.dtos.BookingDto;
 import com.example.hotel.dtos.RoomDetailedDto;
-import com.example.hotel.dtos.BookingDto;
-import com.example.hotel.models.Booking;
 import com.example.hotel.services.BookingService;
 import com.example.hotel.services.CustomerService;
 import com.example.hotel.services.RoomService;
@@ -14,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,13 +31,13 @@ public class BookingController {
 
     @RequestMapping("bookings/{id}")
     public String getBooking(@PathVariable Long id, Model model) {
-        Booking booking = bookingService.findBookingById(id);
-        if (booking != null) {
-            BookingDetailedDto bookingDetailedDto = bookingService.bookingToBookingDetailedDto(booking);
-            model.addAttribute("bookingDetailedDto", bookingDetailedDto);
+        Optional<BookingDetailedDto> booking = bookingService.findBookingById(id);
+        if(booking.isPresent()) {
+            model.addAttribute("booking", booking);
             return "bookingDetails";
         }
-        return "redirect:/bookings";
+        model.addAttribute("error", "Booking not found");
+        return "/bookings";
     }
 
     @RequestMapping("bookings/{id}/delete")
@@ -52,15 +51,15 @@ public class BookingController {
 
     @RequestMapping ("bookings/{id}/update")
     public String updateBooking(@PathVariable Long id, Model model) {
-        Booking booking = bookingService.findBookingById(id);
-        if (booking != null) {
-            BookingDetailedDto bookingDetailedDto = bookingService.bookingToBookingDetailedDto(booking);
-            model.addAttribute("bookingDetailedDto", bookingDetailedDto);
+        Optional<BookingDetailedDto> booking = bookingService.findBookingById(id);
+        if(booking.isPresent()) {
+            model.addAttribute("bookingDetailedDto", booking);
             model.addAttribute("customers", customerService.getAllCustomers());
             model.addAttribute("rooms", roomService.getAllRooms());
             return "updateBooking";
         }
-        return "redirect:/bookings";
+        model.addAttribute("error", "Booking update not possible");
+        return "bookings";
     }
 
     @GetMapping("bookings/create")
@@ -70,8 +69,6 @@ public class BookingController {
         model.addAttribute("rooms", roomService.getAllRooms());
         return "createBooking";
     }
-
-
 
     @GetMapping("/searchAvailableRooms")
     public String showSearchForm(Model model) {

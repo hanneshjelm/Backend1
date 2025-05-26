@@ -5,6 +5,7 @@ import com.example.hotel.dtos.BookingDto;
 import com.example.hotel.models.Booking;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookingService {
 
@@ -14,12 +15,11 @@ public interface BookingService {
 
     public List<BookingDto> getAllBookings();
 
-    public Booking findBookingById(Long id);
+    public Optional<BookingDetailedDto>  findBookingById(Long id);
 
     public String updateBooking(BookingDetailedDto bookingDetailedDto);
 
     public String createBooking(BookingDetailedDto bookingDetailedDto);
 
     public boolean deleteBooking(Long id);
-
 }
