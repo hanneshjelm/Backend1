@@ -12,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootApplication
@@ -24,14 +25,14 @@ public class Main {
     public CommandLineRunner commandLineRunner(RoomRepository roomRepository, CustomerRepository customerRepository, BookingRepository bookingRepository) {
         return args -> {
             List<Room> rooms = List.of(
-            roomRepository.save(new Room(101,14, RoomType.SINGLE)),
-            roomRepository.save(new Room(102,14, RoomType.SINGLE)),
+            roomRepository.save(new Room(101, 14, RoomType.SINGLE)),
+            roomRepository.save(new Room(102, 14, RoomType.SINGLE)),
             roomRepository.save(new Room(103, 14, RoomType.SINGLE)),
             roomRepository.save(new Room(104, 16, RoomType.SINGLE)),
             roomRepository.save(new Room(105, 16, RoomType.SINGLE)),
-            roomRepository.save(new Room(106,24, RoomType.DOUBLE)),
+            roomRepository.save(new Room(106, 24, RoomType.DOUBLE)),
             roomRepository.save(new Room(107, 24, RoomType.DOUBLE)),
-            roomRepository.save(new Room(108,24, RoomType.DOUBLE)),
+            roomRepository.save(new Room(108, 24, RoomType.DOUBLE)),
             roomRepository.save(new Room(109, 24, RoomType.DOUBLE)),
             roomRepository.save(new Room(110, 24, RoomType.DOUBLE)),
             roomRepository.save(new Room(111, 24, RoomType.DOUBLE)),
@@ -49,12 +50,12 @@ public class Main {
             );
 
             List<Booking> bookings = List.of(
-                    bookingRepository.save(new Booking(customers.get(0), rooms.get(0))),
-                    bookingRepository.save(new Booking(customers.get(0), rooms.get(1))),
-                    bookingRepository.save(new Booking(customers.get(1), rooms.get(0)))
+                    bookingRepository.save(new Booking(customers.get(0), rooms.get(0), LocalDate.of(2024,12,20), LocalDate.of(2024,12,26), 2)),
+                    bookingRepository.save(new Booking(customers.get(0), rooms.get(1),LocalDate.of(2025,1,15), LocalDate.of(2025,1,25), 1)),
+                    bookingRepository.save(new Booking(customers.get(1), rooms.get(0),LocalDate.of(2025,3,7), LocalDate.of(2025,3,17), 3)),
+                    bookingRepository.save(new Booking(customers.get(2), rooms.get(2), LocalDate.of(2025,5,20), LocalDate.now(), 4)),
+                    bookingRepository.save(new Booking(customers.get(3), rooms.get(5), LocalDate.of(2025,4,15), LocalDate.of(2025,4,20), 5))
             );
-
-
         };
     }
 }

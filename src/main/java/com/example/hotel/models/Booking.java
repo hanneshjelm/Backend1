@@ -38,4 +38,12 @@ public class Booking {
         this.customer = customer;
         this.room = room;
     }
+
+    public Booking(Customer customer, Room room, LocalDate checkInDate, LocalDate checkOutDate, int guests) {
+        this.customer = customer;
+        this.room = room;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.guests = guests;
+    }
 }

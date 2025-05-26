@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bookings</title>
+</head>
+<body>
+<h1>All Bookings</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Check in date</th>
+        <th>Check out date</th>
+        <th>Guests</th>
+    </tr>
+    <tr th:each="booking : ${bookings}">
+        <td th:text="${booking.id}"></td>
+        <td th:text="${booking.checkInDate}"></td>
+        <td th:text="${booking.checkOutDate}"></td>
+        <td th:text="${booking.guests}"></td>
+        <td>
+            <a th:href="@{/bookings/{id}(id=${booking.id})}">View</a> |
+            <a th:href="@{/bookings/{id}/update(id=${booking.id})}">Update</a> |
+            <a th:href="@{/bookings/{id}/delete(id=${booking.id})}">Delete</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

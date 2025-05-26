@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Booking Details</title>
+</head>
+<body>
+<h2>Booking Details:</h2>
+
+<table>
+  <tr>
+    <th>Booking ID:</th>
+    <td th:text="${bookingDetailedDto.id}"></td>
+  </tr>
+  <tr>
+    <th>Customer Name:</th>
+    <td th:text="${bookingDetailedDto.customer.name}"></td>
+  </tr>
+  <tr>
+    <th>Customer ID:</th>
+    <td th:text="${bookingDetailedDto.customer.id}"></td>
+  </tr>
+  <tr>
+    <th>Room Number:</th>
+    <td th:text="${bookingDetailedDto.room.roomNumber}"></td>
+  </tr>
+  <tr>
+    <th>Room Type:</th>
+    <td th:text="${bookingDetailedDto.room.roomTypeString}"></td>
+  </tr>
+  <tr>
+    <th>Check-in Date:</th>
+    <td th:text="${bookingDetailedDto.checkInDate}"></td>
+  </tr>
+  <tr>
+    <th>Check-out Date:</th>
+    <td th:text="${bookingDetailedDto.checkOutDate}"></td>
+  </tr>
+  <tr>
+    <th>Number of Guests:</th>
+    <td th:text="${bookingDetailedDto.guests}"></td>
+  </tr>
+</table>
+
+<br>
+
+<a th:href="@{/bookings/{id}/update(id=${bookingDetailedDto.id})}">Update Booking</a> |
+<a href="/bookings">Back to All Bookings</a> |
+<a th:href="@{/bookings/{id}/delete(id=${bookingDetailedDto.id})}">Delete Booking</a>
+</body>
+</html>
