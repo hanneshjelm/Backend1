@@ -8,14 +8,9 @@ import com.example.hotel.models.Booking;
 import com.example.hotel.models.Customer;
 import com.example.hotel.models.Room;
 import com.example.hotel.repos.BookingRepository;
-import com.example.hotel.repos.CustomerRepository;
-import com.example.hotel.repos.RoomRepository;
-import com.example.hotel.repos.CustomerRepository;
 import com.example.hotel.services.BookingService;
 import com.example.hotel.services.CustomerService;
 import com.example.hotel.services.RoomService;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +18,19 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+
 public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final CustomerService customerService;
     private final RoomService roomService;
+
+    public BookingServiceImpl(BookingRepository bookingRepository,
+                              CustomerService customerService,
+                              RoomService roomService) {
+        this.bookingRepository = bookingRepository;
+        this.customerService = customerService;
+        this.roomService = roomService;
+    }
 
     @Override
     public List<BookingDto> getAllBookings() {

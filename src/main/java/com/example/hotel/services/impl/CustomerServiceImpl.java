@@ -6,22 +6,25 @@ import com.example.hotel.repos.CustomerRepository;
 import com.example.hotel.services.BookingService;
 import com.example.hotel.services.CustomerService;
 import jakarta.transaction.Transactional;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 import java.util.List;
 
 @Service
-
 public class CustomerServiceImpl implements CustomerService {
 
-    private final BookingService bookingService;
+    private BookingService bookingService;
     private final CustomerRepository customerRepository;
 
-    public CustomerServiceImpl(BookingService bookingService, CustomerRepository customerRepository) {
-        this.bookingService = bookingService;
+    public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
+    }
+
+    @Lazy
+    public void setBookingService(BookingService bookingService) {
+        this.bookingService = bookingService;
     }
 
     @Override
