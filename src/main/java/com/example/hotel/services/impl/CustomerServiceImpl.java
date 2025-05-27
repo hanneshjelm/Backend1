@@ -41,7 +41,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto findByPhoneNumber(String phoneNumber) {
-        //customerRepository.findByPhoneNumber(phoneNumber);
         return customerRepository.findByPhoneNumber(phoneNumber).map(this::customerToCustomerDto).orElse(null);
     }
 

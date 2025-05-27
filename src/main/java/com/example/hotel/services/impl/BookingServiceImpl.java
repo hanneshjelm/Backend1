@@ -11,7 +11,6 @@ import com.example.hotel.repos.BookingRepository;
 import com.example.hotel.services.BookingService;
 import com.example.hotel.services.CustomerService;
 import com.example.hotel.services.RoomService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -93,14 +92,6 @@ public class BookingServiceImpl implements BookingService {
                 .checkInDate(b.getCheckInDate()).checkOutDate(b.getCheckOutDate()).build();
     }
 
-
-    /*
-    public Booking BookingDetailedDtoToBooking(BookingDetailedDto b) {
-        return Booking.builder().id(b.getId()).customer(customerService.findCustomerById(b.getId()))
-               // .room(b.getRoom()).checkInDate(b.getCheckInDate())
-                .checkOutDate(b.getCheckOutDate()).guests(b.getGuests())
-                .build(); }
-*/
 
     @Override
     public Booking findBookingById(Long id) {

@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -87,34 +86,23 @@ public class BookingController {
     }
 
     @PostMapping("registerBooking")
-    public String registerBooking(
-                                  @ModelAttribute("booking")BookingDetailedDto booking ,Model model) {
+    public String registerBooking(@ModelAttribute("booking")BookingDetailedDto booking ,Model model) {
 
         CustomerDto dto = customerService.findByPhoneNumber(booking.getCustomer().getPhoneNumber());
         if (dto != null) {
         booking.setCustomer(dto);
         bookingService.createBooking(booking);
-        //createBooking(booking, model);
             System.out.println("yaass queen");
         } else {
-        //CustomerDto customerDto=customerService.createCustomer(customer);
         customerService.createCustomer(booking.getCustomer());
         CustomerDto customerDto = customerService.findByPhoneNumber(booking.getCustomer().getPhoneNumber());
 
         booking.setCustomer(customerDto);
         log.info(customerDto.getId().toString());
-        //createBooking(booking, model);
         bookingService.createBooking(booking);
-        //booking.setRoom(roomService.getRoomById(booking.getRoom().getId()));
             System.out.println("yasss bich");
         }
         return "bookingResult";
     }
-    /* public Booking(Customer customer, Room room, LocalDate checkInDate, LocalDate checkOutDate, int guests) {
-        this.customer = customer;
-        this.room = room;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
-        this.guests = guests;
-    }*/
+
 }

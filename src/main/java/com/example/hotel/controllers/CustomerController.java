@@ -1,23 +1,18 @@
 package com.example.hotel.controllers;
 
 import com.example.hotel.dtos.BookingDetailedDto;
-import com.example.hotel.dtos.BookingDto;
 import com.example.hotel.dtos.CustomerDetailedDto;
 import com.example.hotel.dtos.CustomerDto;
 import com.example.hotel.models.Customer;
 import com.example.hotel.repos.CustomerRepository;
 import com.example.hotel.services.RoomService;
 import com.example.hotel.services.impl.CustomerServiceImpl;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -67,15 +62,9 @@ public class CustomerController {
     public String showForm( @ModelAttribute("booking") BookingDetailedDto bookingForm,
             Model model
     ) {
-       // BookingDto booking = new BookingDto();
-        //@ModelAttribute ("customer") CustomerDetailedDto customer,
         CustomerDto customer= new CustomerDto();
         log.info(String.valueOf(bookingForm.getRoom().getId()));
         bookingForm.setRoom(roomService.getRoomById2(bookingForm.getRoom().getId()));
-        //Room room = roomRepository.findById(bookingDetailedDto.getRoom().getId()).orElse(null);
-        //customer.setBookings((List<BookingDto>) bookingForm);
-        //model.addAttribute("booking", bookingForm);
-        //model.addAttribute("customer", customer);
         model.addAttribute("booking", bookingForm);
         return "customerForBooking";
     }
