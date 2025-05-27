@@ -1,8 +1,11 @@
 package com.example.hotel.services;
 
+import com.example.hotel.dtos.BookingDetailedDto;
+import com.example.hotel.dtos.CustomerDto;
 import com.example.hotel.dtos.RoomDetailedDto;
 import com.example.hotel.dtos.RoomDto;
 import com.example.hotel.enums.RoomType;
+import com.example.hotel.models.Booking;
 import com.example.hotel.models.Room;
 import com.example.hotel.repos.BookingRepository;
 import com.example.hotel.repos.RoomRepository;
@@ -13,6 +16,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,9 +42,9 @@ public class RoomServiceImplTest {
     private Room room2;
     private Room room3;
 
-    private RoomDetailedDto actualDto1;
-    private RoomDetailedDto actualDto2;
-    private RoomDetailedDto actualDto3;
+    private BookingDetailedDto booking1;
+    private BookingDetailedDto booking2;
+    private BookingDetailedDto booking3;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -53,9 +59,9 @@ public class RoomServiceImplTest {
         roomRepo.save(room2);
         roomRepo.save(room3);
 
-        actualDto1 = roomService.roomToRoomDetailedDto(room1);
-        actualDto2 = roomService.roomToRoomDetailedDto(room2);
-        actualDto3 = roomService.roomToRoomDetailedDto(room3);
+        booking1 = new BookingDetailedDto(new CustomerDto(), roomService.roomToRoomDto(room1), LocalDate.of(2025, 12, 23), LocalDate.of(2025, 12, 23),2);
+        booking2 = new BookingDetailedDto(new CustomerDto(), roomService.roomToRoomDto(room2), LocalDate.of(2025, 9, 3), LocalDate.of(2025, 9, 6),1);
+        booking3 = new BookingDetailedDto(new CustomerDto(), roomService.roomToRoomDto(room3), LocalDate.of(2025, 7, 11), LocalDate.of(2025, 8, 2),4);
     }
 
     @Test
@@ -66,9 +72,9 @@ public class RoomServiceImplTest {
     @Test
     @Transactional
     public void getRoomById() {
-        assertEquals(actualDto1, roomServiceImpl.getRoomById(room1.getId()));
-        assertEquals(actualDto2, roomServiceImpl.getRoomById(room2.getId()));
-        assertEquals(actualDto3.getRoomNumber(), roomServiceImpl.getRoomById(room3.getId()).getRoomNumber());
+        assertEquals(room1, roomServiceImpl.getRoomById(room1.getId()));
+        assertEquals(room2, roomServiceImpl.getRoomById(room2.getId()));
+        assertEquals(room3, roomServiceImpl.getRoomById(room3.getId()));
     }
 
     @Test
@@ -83,9 +89,14 @@ public class RoomServiceImplTest {
 
     @Test
     public void roomToRoomDetailedDtoTest() throws Exception {
-        assertEquals(room2.getRoomNumber(), actualDto2.getRoomNumber());
-        assertEquals(room3.getRoomNumber(), actualDto3.getRoomNumber());
-        assertEquals(room2.getSize(), actualDto2.getSize());
+        RoomDetailedDto actualDetailedDto1 = roomService.roomToRoomDetailedDto(room1);
+        RoomDetailedDto actualDetailedDto2 = roomService.roomToRoomDetailedDto(room2);
+        RoomDetailedDto actualDetailedDto3 = roomService.roomToRoomDetailedDto(room3);
+
+        assertEquals(room1.getRoomType().getType(), actualDetailedDto1.getRoomTypeString());
+        assertEquals(room2.getRoomNumber(), actualDetailedDto2.getRoomNumber());
+        assertEquals(room3.getRoomNumber(), actualDetailedDto3.getRoomNumber());
+        assertEquals(room2.getSize(), actualDetailedDto2.getSize());
     }
 
     @Test
@@ -108,5 +119,19 @@ public class RoomServiceImplTest {
         assertEquals(1, actualCapacity1);
         assertEquals(3, actualCapacity2);
         assertEquals(4, actualCapacity3);
+    }
+
+    @Test
+    @Transactional
+    public void getAvailableRoomsTest() throws Exception {
+        RoomDetailedDto actualDetailedDto1 = roomService.roomToRoomDetailedDto(room1);
+        RoomDetailedDto actualDetailedDto2 = roomService.roomToRoomDetailedDto(room2);
+        RoomDetailedDto actualDetailedDto3 = roomService.roomToRoomDetailedDto(room3);
+
+        assertEquals(List.of(actualDetailedDto2, actualDetailedDto3), roomService.getAvailableRooms(booking1));
+        assertEquals(List.of(actualDetailedDto1, actualDetailedDto2, actualDetailedDto3), roomService.getAvailableRooms(booking2));
+        assertEquals(List.of(actualDetailedDto3), roomService.getAvailableRooms(booking3));
+
+
     }
 }

@@ -170,7 +170,6 @@ public class BookingController {
         model.addAttribute("checkOutDate", booking.getCheckOutDate());
 
         return "bookingResult";
-
     }
 
 }

@@ -53,15 +53,4 @@ public class RoomControllerTest {
                 .andExpect(model().attribute("allRooms", hasSize(6)))
                 .andReturn();
     }
-
-    /*
-    @Test //Behöver testas!
-    public void getRoomByIdTest() throws Exception {
-      mockMvc.perform(get("rooms/{id}"))
-              .andExpect(status().isOk())
-              .andExpect(view().name("room"))
-              .andExpect(model().attributeExists("room"))
-              .andReturn();
-    }
-     */
 }
