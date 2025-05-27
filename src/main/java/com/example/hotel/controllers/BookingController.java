@@ -57,17 +57,36 @@ public class BookingController {
         return "redirect:/customers/{customerId}";
     }
 
-    @RequestMapping ("bookings/{id}/update")
-    public String updateBooking(@PathVariable Long id, Model model) {
+    @GetMapping ("bookings/{id}/update")
+    public String updateBookingForm(@PathVariable Long id, Model model) {
         Booking booking = bookingService.findBookingById(id);
         if (booking != null) {
             BookingDetailedDto bookingDetailedDto = bookingService.bookingToBookingDetailedDto(booking);
-            model.addAttribute("bookingDetailedDto", bookingDetailedDto);
-            model.addAttribute("customers", customerService.getAllCustomers());
-            model.addAttribute("rooms", roomService.getAllRooms());
-            return "updateBooking";
+            model.addAttribute("booking", bookingDetailedDto);
+            //model.addAttribute("customers", customerService.getAllCustomers());
+            //model.addAttribute("rooms", roomService.getAllRooms());
+            model.addAttribute("editBookingId", id);
+            return "roomSearch";
         }
         return "redirect:/bookings";
+    }
+
+    @PostMapping("bookings/{id}/update")
+    public String updateBooking(@PathVariable Long id, @ModelAttribute BookingDetailedDto bookingDetailedDto, Model model) {
+
+        if (bookingDetailedDto.getCustomer() == null ||
+                bookingDetailedDto.getRoom() == null ||
+                bookingDetailedDto.getCheckInDate() == null) {
+
+            model.addAttribute("error", "Was not able to update booking details");
+            model.addAttribute("customers", customerService.getAllCustomers());
+            model.addAttribute("rooms", roomService.getAllRooms());
+            return "roomSearch";
+        }
+
+        bookingService.updateBooking(bookingDetailedDto);
+
+        return "redirect:/bookings/" + id;
     }
 
     @GetMapping("bookings/create")
@@ -84,12 +103,17 @@ public class BookingController {
 
     @PostMapping("/searchAvailableRooms")
     public String searchAvailableRooms(
-            @ModelAttribute("booking") BookingDetailedDto bookingForm,
+            @ModelAttribute("booking") BookingDetailedDto bookingForm,@RequestParam(required = false) Long editBookingId,
             Model model
     ) {
         List<RoomDetailedDto> availableRooms = roomService.getAvailableRooms(bookingForm);
         model.addAttribute("booking", bookingForm);
         model.addAttribute("rooms", availableRooms);
+
+        if(editBookingId != null) {
+            model.addAttribute("editBookingId", editBookingId);
+        }
+
         return "availableRooms";
     }
 

@@ -18,13 +18,23 @@
         <td th:text="${room.roomNumber}"></td>
         <td th:text="${room.capacity}"></td>
         <td>
-            <form method="get" th:action="@{/customers/customerBooking}">
+            <form th:if="${editBookingId == null}" method="get" th:action="@{/customers/customerBooking}">
                 <input type="hidden" name="room.id" th:value="${room.id}" />
                 <input type="hidden" name="checkInDate" th:value="${booking.checkInDate}" />
                 <input type="hidden" name="checkOutDate" th:value="${booking.checkOutDate}" />
                 <input type="hidden" name="guests" th:value="${booking.guests}" />
                 <button type="submit">Book this room</button>
             </form>
+
+            <form th:if="${editBookingId != null}" method="post" th:action="@{/bookings/bookingResult}">
+                <input type="hidden" name="bookingId" th:value="${editBookingId}" />
+                <input type="hidden" name="newRoomId" th:value="${room.id}" />
+                <input type="hidden" name="checkInDate" th:value="${booking.checkInDate}" />
+                <input type="hidden" name="checkOutDate" th:value="${booking.checkOutDate}" />
+                <input type="hidden" name="guests" th:value="${booking.guests}" />
+                <button type="submit">Update to this room</button>
+            </form>
+
         </td>
     </tr>
 </table>
