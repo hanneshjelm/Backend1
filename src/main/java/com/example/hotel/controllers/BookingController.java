@@ -63,8 +63,6 @@ public class BookingController {
         if (booking != null) {
             BookingDetailedDto bookingDetailedDto = bookingService.bookingToBookingDetailedDto(booking);
             model.addAttribute("booking", bookingDetailedDto);
-            //model.addAttribute("customers", customerService.getAllCustomers());
-            //model.addAttribute("rooms", roomService.getAllRooms());
             model.addAttribute("editBookingId", id);
             return "roomSearch";
         }
