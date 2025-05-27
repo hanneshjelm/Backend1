@@ -16,7 +16,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
         WHERE r NOT IN (
               SELECT b.room FROM Booking b
               WHERE b.checkInDate <= :checkOut
-                AND b.checkOutDate >= :checkIn
+                AND b.checkOutDate > :checkIn
           )
     """)
     List<Room> findAvailableRooms(
