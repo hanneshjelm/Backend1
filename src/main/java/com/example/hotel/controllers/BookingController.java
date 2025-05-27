@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import java.time.LocalDate;
+import com.example.hotel.models.Room;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -143,8 +145,32 @@ public class BookingController {
         model.addAttribute("roomNumber", booking.getRoom().getRoomNumber());
         model.addAttribute("checkInDate", booking.getCheckInDate());
         model.addAttribute("checkOutDate", booking.getCheckOutDate());
+        model.addAttribute("isUpdate", false);
 
         return "bookingResult";
+    }
+
+    @PostMapping("/confirmBookingUpdate")
+    public String confirmUpdatedBooking(@RequestParam Long bookingId, @RequestParam int newRoomId, @RequestParam String checkInDate, @RequestParam String checkOutDate, @RequestParam int guests, Model model) {
+
+        Booking booking = bookingService.findBookingById(bookingId);
+        Room newRoom = roomService.getRoomById(newRoomId);
+
+        booking.setRoom(newRoom);
+        booking.setCheckInDate(LocalDate.parse(checkInDate));
+        booking.setCheckOutDate(LocalDate.parse(checkOutDate));
+        booking.setGuests(guests);
+
+        bookingService.updateBooking(bookingService.bookingToBookingDetailedDto(booking));
+
+        model.addAttribute("isUpdate", true);
+        model.addAttribute("customerName", booking.getCustomer().getName());
+        model.addAttribute("roomNumber", booking.getRoom().getRoomNumber());
+        model.addAttribute("checkInDate", booking.getCheckInDate());
+        model.addAttribute("checkOutDate", booking.getCheckOutDate());
+
+        return "bookingResult";
+
     }
 
 }

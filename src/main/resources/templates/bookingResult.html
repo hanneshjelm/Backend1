@@ -4,8 +4,12 @@
     <title>Booking Confirmation</title>
 </head>
 <body>
-<h2>Booking Created!</h2>
-<p>Booking successfully created for <strong th:text="${customerName}">Customer Name</strong>.</p>
+<h2 th:if="${isUpdate == null or isUpdate == false}">Booking Created!</h2>
+<h2 th:if="${isUpdate == true}">Booking Updated!</h2>
+
+<p th:if="${isUpdate == null or isUpdate == false}">Booking successfully created for <strong th:text="${customerName}">Customer Name</strong>.</p>
+<p th:if="${isUpdate == true}">Booking successfully updated for <strong th:text="${customerName}">Customer Name</strong>.</p>
+
 <p>Room number: <strong th:text="${roomNumber}">Room Number</strong></p>
 <p>From <strong th:text="${checkInDate}">Check-in</strong> to <strong th:text="${checkOutDate}">Check-out</strong></p>
 <br>
