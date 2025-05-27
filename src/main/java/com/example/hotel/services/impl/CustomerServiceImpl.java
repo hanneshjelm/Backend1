@@ -15,23 +15,18 @@ import java.util.List;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    private BookingService bookingService;
     private final CustomerRepository customerRepository;
+    private final BookingService bookingService;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, @Lazy BookingService bookingService) {
         this.customerRepository = customerRepository;
+        this.bookingService = bookingService;
     }
 
-    @Lazy
-    public void setBookingService(BookingService bookingService) {
-        this.bookingService = bookingService;
-    @PostMapping
-    public Customer createCustomer(@RequestBody Customer customer) {
-        return customerRepository.save(customer);
-    }
 
     @Override
     public List<CustomerDetailedDto> getAllCustomers() {
+
         return customerRepository.findAll().stream().map(this::customerToCustomerDetailedDto).toList();
     }
 
@@ -40,6 +35,15 @@ public class CustomerServiceImpl implements CustomerService {
     public String createCustomer(CustomerDto c) {
         customerRepository.save(customerDtoToCustomer(c));
         return "Success";
+    }
+
+    @Override
+    public List<CustomerDetailedDto> findCustomerByEmail(String email) {
+        List<Customer> customers = customerRepository.findByEmailContainingIgnoreCase(email);
+        if(customers.isEmpty()) {
+            return List.of();
+        }
+        return customers.stream().map(this::customerToCustomerDetailedDto).toList();
     }
 
     @Override
@@ -81,7 +85,7 @@ public class CustomerServiceImpl implements CustomerService {
     //kan ta bort denna om inte room eller booking ska ha builders
     @Override
     public Customer findCustomerById(Long id) {
-            return customerRepository.findById(id).orElse(null);
+        return customerRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -100,14 +104,5 @@ public class CustomerServiceImpl implements CustomerService {
             return "Customer not found";
         }
 
-    }
-
-    @Override
-    public List<CustomerDetailedDto> findCustomerByEmail(String email) {
-        List<Customer> customers = customerRepository.findByEmailContainingIgnoreCase(email);
-        if(customers.isEmpty()) {
-            return List.of();
-        }
-        return customers.stream().map(this::customerToCustomerDetailedDto).toList();
     }
 }
