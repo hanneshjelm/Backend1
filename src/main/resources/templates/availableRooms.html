@@ -26,7 +26,7 @@
                 <button type="submit">Book this room</button>
             </form>
 
-            <form th:if="${editBookingId != null}" method="post" th:action="@{/bookings/bookingResult}">
+            <form th:if="${editBookingId != null}" method="post" th:action="@{/confirmBookingUpdate}">
                 <input type="hidden" name="bookingId" th:value="${editBookingId}" />
                 <input type="hidden" name="newRoomId" th:value="${room.id}" />
                 <input type="hidden" name="checkInDate" th:value="${booking.checkInDate}" />
