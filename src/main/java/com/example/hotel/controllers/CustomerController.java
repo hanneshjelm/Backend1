@@ -95,6 +95,18 @@ public class CustomerController {
         return "redirect:/customers/{id}";
     }
 
+    @GetMapping("/{id}/update")
+    public String updateCustomerForm(@PathVariable Long id, Model model) {
+        Customer customer = customerService.findCustomerById(id);
+        if (customer != null) {
+            CustomerDetailedDto customerDetailedDto = customerService.customerToCustomerDetailedDto(customer);
+            model.addAttribute("customerDetailedDto", customerDetailedDto);
+            return "updateCustomerForm";
+        }
+        return "redirect:/customers/all";
+    }
+
+
     @PostMapping("/update")
     public String updateCustomer(CustomerDetailedDto customerDetailedDto) {
         customerService.updateCustomer(customerDetailedDto);
