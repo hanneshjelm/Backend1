@@ -27,14 +27,14 @@ public class BookingController {
     private static final Logger log = Logger.getLogger(BookingController.class.getName());
 
 
-    @RequestMapping("bookings")
+    @RequestMapping("/bookings")
     public String getAllBookings(Model model) {
         List<BookingDto> bookings = bookingService.getAllBookings();
         model.addAttribute("bookings", bookings);
         return "bookings";
     }
 
-    @RequestMapping("bookings/{id}")
+    @RequestMapping("/bookings/{id}")
     public String getBooking(@PathVariable Long id, Model model) {
         Booking booking = bookingService.findBookingById(id);
         if (booking != null) {
@@ -45,32 +45,37 @@ public class BookingController {
         return "redirect:/bookings";
     }
 
-    @RequestMapping("bookings/{id}/delete")
+    @RequestMapping("/bookings/{id}/delete")
     public String deleteBooking(@PathVariable Long id) {
         bookingRepository.deleteById(id);
         return "redirect:/bookings";
     }
 
-    @RequestMapping("bookings/{id}/deleteFromCustomer/{customerId}")
+    @RequestMapping("/bookings/{id}/deleteFromCustomer/{customerId}")
     public String deleteBooking2(@PathVariable Long id, @PathVariable Long customerId) {
         bookingRepository.deleteById(id);
         return "redirect:/customers/{customerId}";
     }
 
-    @RequestMapping ("bookings/{id}/update")
-    public String updateBooking(@PathVariable Long id, Model model) {
+    @GetMapping ("/bookings/{id}/update")
+    public String updateBookingForm(@PathVariable Long id, Model model) {
         Booking booking = bookingService.findBookingById(id);
         if (booking != null) {
             BookingDetailedDto bookingDetailedDto = bookingService.bookingToBookingDetailedDto(booking);
             model.addAttribute("bookingDetailedDto", bookingDetailedDto);
-            model.addAttribute("customers", customerService.getAllCustomers());
-            model.addAttribute("rooms", roomService.getAllRooms());
-            return "updateBooking";
+            return "updateBookingForm";
         }
         return "redirect:/bookings";
     }
 
-    @GetMapping("bookings/create")
+    @PostMapping("/bookings/update")
+    public String updateBooking(BookingDetailedDto bookingDetailedDto) {
+        bookingService.updateBooking(bookingDetailedDto);
+        Long customerId = bookingDetailedDto.getCustomer().getId();
+        return "redirect:/customers/" + customerId;
+    }
+
+    @GetMapping("/bookings/create")
     public String createBooking(@ModelAttribute("booking") BookingDetailedDto bookingForm, Model model) {
         bookingService.createBooking(bookingForm);
         return "bookingResult";
