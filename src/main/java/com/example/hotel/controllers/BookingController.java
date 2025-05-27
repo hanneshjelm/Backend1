@@ -7,9 +7,11 @@ import com.example.hotel.repos.BookingRepository;
 import com.example.hotel.services.BookingService;
 import com.example.hotel.services.CustomerService;
 import com.example.hotel.services.RoomService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -92,8 +94,15 @@ public class BookingController {
     }
 
     @PostMapping("registerBooking")
-    public String registerBooking(@ModelAttribute("booking")BookingDetailedDto booking ,Model model) {
-
+    public String registerBooking(
+            @Valid @ModelAttribute("booking") BookingDetailedDto booking,
+            BindingResult bindingResult,
+            Model model
+    ) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("error", "Validation failed. Please check your inputs.");
+            return "customerForBooking";
+        }
         CustomerDto dto = customerService.findByPhoneNumber(booking.getCustomer().getPhoneNumber());
         if (dto != null) {
         booking.setCustomer(dto);

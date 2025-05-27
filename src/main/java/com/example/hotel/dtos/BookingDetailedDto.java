@@ -1,5 +1,6 @@
 package com.example.hotel.dtos;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @Builder
 public class BookingDetailedDto {
     private Long id;
+    @Valid
     private CustomerDto customer;
     private RoomDto room;
     private LocalDate checkInDate;
