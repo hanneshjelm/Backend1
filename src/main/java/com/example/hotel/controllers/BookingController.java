@@ -107,7 +107,6 @@ public class BookingController {
         if (dto != null) {
         booking.setCustomer(dto);
         bookingService.createBooking(booking);
-            System.out.println("yaass queen");
         } else {
         customerService.createCustomer(booking.getCustomer());
         CustomerDto customerDto = customerService.findByPhoneNumber(booking.getCustomer().getPhoneNumber());
@@ -115,8 +114,14 @@ public class BookingController {
         booking.setCustomer(customerDto);
         log.info(customerDto.getId().toString());
         bookingService.createBooking(booking);
-            System.out.println("yasss bich");
         }
+
+        booking.setRoom(roomService.roomToRoomDto(roomService.getRoomById(booking.getRoom().getId())));
+        model.addAttribute("customerName", booking.getCustomer().getName());
+        model.addAttribute("roomNumber", booking.getRoom().getRoomNumber());
+        model.addAttribute("checkInDate", booking.getCheckInDate());
+        model.addAttribute("checkOutDate", booking.getCheckOutDate());
+
         return "bookingResult";
     }
 

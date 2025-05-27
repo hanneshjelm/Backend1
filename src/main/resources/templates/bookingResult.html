@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Booking Confirmation</title>
+</head>
+<body>
+<h2>Booking Created!</h2>
+<p>Booking successfully created for <strong th:text="${customerName}">Customer Name</strong>.</p>
+<p>Room number: <strong th:text="${roomNumber}">Room Number</strong></p>
+<p>From <strong th:text="${checkInDate}">Check-in</strong> to <strong th:text="${checkOutDate}">Check-out</strong></p>
+<br>
+<br>
+<a th:href="@{/}">← Return to Start Page</a>
+</body>
+</html>
