@@ -113,27 +113,12 @@ public class CustomerController {
         return "redirect:/customers/all";
     }
 
-    @GetMapping("/createForm")
-    public String createCustomerForm(Model model) {
-        model.addAttribute("customer", new CustomerDetailedDto());
-        return "createCustomerForm";
-    }
-
-//    @PostMapping("/create")
-//    public String createCustomer(CustomerDetailedDto customerDetailedDto) {
-//        customerService.createCustomer(customerDetailedDto);
-//        return "redirect:/customers/all";
-//    }
-
-
 
     @GetMapping("/customerBooking")
     public String showForm( @ModelAttribute("booking") BookingDetailedDto bookingForm,
                             Model model
     ) {
-        CustomerDto customer= new CustomerDto();
-        log.info(String.valueOf(bookingForm.getRoom().getId()));
-        bookingForm.setRoom(roomService.getRoomById2(bookingForm.getRoom().getId()));
+
         model.addAttribute("booking", bookingForm);
         return "customerForBooking";
     }

@@ -136,7 +136,7 @@ public class BookingController {
         CustomerDto customerDto = customerService.findByPhoneNumber(booking.getCustomer().getPhoneNumber());
 
         booking.setCustomer(customerDto);
-        log.info(customerDto.getId().toString());
+        //log.info(customerDto.getId().toString());
         bookingService.createBooking(booking);
         }
 
