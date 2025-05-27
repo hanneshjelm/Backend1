@@ -87,10 +87,10 @@ public class BookingController {
     }
 
     @PostMapping("registerBooking")
-    public String registerBooking(@ModelAttribute("customer")CustomerDto customer,
+    public String registerBooking(
                                   @ModelAttribute("booking")BookingDetailedDto booking ,Model model) {
 
-        CustomerDto dto = customerService.findByPhoneNumber(customer.getPhoneNumber());
+        CustomerDto dto = customerService.findByPhoneNumber(booking.getCustomer().getPhoneNumber());
         if (dto != null) {
         booking.setCustomer(dto);
         bookingService.createBooking(booking);
@@ -98,8 +98,8 @@ public class BookingController {
             System.out.println("yaass queen");
         } else {
         //CustomerDto customerDto=customerService.createCustomer(customer);
-        customerService.createCustomer(customer);
-        CustomerDto customerDto = customerService.findByPhoneNumber(customer.getPhoneNumber());
+        customerService.createCustomer(booking.getCustomer());
+        CustomerDto customerDto = customerService.findByPhoneNumber(booking.getCustomer().getPhoneNumber());
 
         booking.setCustomer(customerDto);
         log.info(customerDto.getId().toString());

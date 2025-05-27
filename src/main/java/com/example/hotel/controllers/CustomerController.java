@@ -75,7 +75,7 @@ public class CustomerController {
         //Room room = roomRepository.findById(bookingDetailedDto.getRoom().getId()).orElse(null);
         //customer.setBookings((List<BookingDto>) bookingForm);
         //model.addAttribute("booking", bookingForm);
-        model.addAttribute("customer", customer);
+        //model.addAttribute("customer", customer);
         model.addAttribute("booking", bookingForm);
         return "customerForBooking";
     }
