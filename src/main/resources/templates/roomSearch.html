@@ -18,7 +18,7 @@
     <input type="date" th:field="*{checkOutDate}" id="checkOut" required>
 
     <label for="guests">Guests:</label>
-    <input type="number" th:field="*{guests}" id="guests" min="1" required>
+    <input type="number" th:field="*{guests}" id="guests" min="1" max="4" required>
 
     <button type="submit">Search Room</button>
 
