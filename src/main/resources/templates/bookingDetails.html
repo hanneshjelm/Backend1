@@ -44,7 +44,7 @@
 <br>
 
 <a th:href="@{/bookings/{id}/update(id=${bookingDetailedDto.id})}">Update Booking</a> |
-<a href="/bookings">Back to All Bookings</a> |
+<a th:href="@{/customers/{id}(id=${bookingDetailedDto.customer.id})}">Back to customer</a> |
 <a th:href="@{/bookings/{id}/deleteFromCustomer/{customerId}(id=${bookingDetailedDto.id}, customerId=${bookingDetailedDto.customer.id})}">Delete Booking</a>
 
 </body>
