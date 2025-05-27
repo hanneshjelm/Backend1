@@ -5,8 +5,12 @@
     <title>Search for available rooms</title>
 </head>
 <body>
-<h2>Search for:</h2>
+<h2 th:if="${editBookingId == null}">Search for:</h2>
+<h2 th:if="${editBookingId != null}">Update booking:</h2>
+
 <form th:action="@{/searchAvailableRooms}" th:object="${booking}" method="post">
+    <input type="hidden" name="editBookingId" th:value="${editBookingId}">
+
     <label for="checkIn">Check-in:</label>
     <input type="date" th:field="*{checkInDate}" id="checkIn" required>
 
@@ -17,6 +21,8 @@
     <input type="number" th:field="*{guests}" id="guests" min="1" required>
 
     <button type="submit">Search Room</button>
+
+    <a th:if="${editBookingId != null}" th:href="@{/bookings/{id}(id=${editBookingId})}">Back to booking</a>
 </form>
 
 </body>
