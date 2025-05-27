@@ -2,11 +2,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Search for avaliable rooms</title>
+    <title>Search for available rooms</title>
 </head>
 <body>
 <h2>Search for:</h2>
-<form th:action="@{/searchAvaliableRooms}" th:object="${booking}" method="post">
+<form th:action="@{/searchAvailableRooms}" th:object="${booking}" method="post">
     <label for="checkIn">Check-in:</label>
     <input type="date" th:field="*{checkInDate}" id="checkIn" required>
 
@@ -19,8 +19,5 @@
     <button type="submit">Search Room</button>
 </form>
 
-
-
-<a href="/test">Search now</a>
 </body>
 </html>

@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @Builder
 public class BookingDto {
     private Long id;
+    private Long roomId;
     private int guests;
     private LocalDate checkInDate; // vet inte vilken data vi vill se i den lilla Dton men går ju lätt att ändra
     private LocalDate checkOutDate;

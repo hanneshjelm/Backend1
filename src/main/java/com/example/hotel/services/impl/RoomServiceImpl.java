@@ -1,6 +1,7 @@
 package com.example.hotel.services.impl;
 
-import com.example.hotel.dtos.BookingDto;
+import com.example.hotel.dtos.BookingDetailedDto;
+import org.springframework.context.annotation.Lazy;
 import com.example.hotel.dtos.RoomDetailedDto;
 import com.example.hotel.dtos.RoomDto;
 import com.example.hotel.enums.RoomType;
@@ -9,8 +10,7 @@ import com.example.hotel.models.Room;
 import com.example.hotel.repos.RoomRepository;
 import com.example.hotel.services.BookingService;
 import com.example.hotel.services.RoomService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,23 +18,28 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+
 public class RoomServiceImpl implements RoomService {
 
-    @Autowired
-    private RoomRepository roomRepository;
+    private final RoomRepository roomRepository;
+    private final BookingService bookingService;
 
-    @Autowired
-    private BookingService bookingService;
-
+    public RoomServiceImpl(RoomRepository roomRepository, @Lazy BookingService bookingService) {
+        this.roomRepository = roomRepository;
+        this.bookingService = bookingService;
+    }
     @Override
     public List<RoomDto> getAllRooms() {
         return roomRepository.findAll().stream().map(this::roomToRoomDto).toList();
     }
 
+    @Override
+    public Room getRoomById(long id) {
+        return roomRepository.findById(id).orElse(null);//Behöver checka denna metod om rum inte hittas
+    }
 
-    public RoomDetailedDto getRoomById(long id) {
-        return roomToRoomDetailedDto(roomRepository.findById(id).orElseThrow()); //Behöver checka denna metod om rum inte hittas
+    public RoomDto getRoomById2(long id) {
+        return roomToRoomDto(roomRepository.findById(id).orElseThrow()); //Behöver checka denna metod om rum inte hittas
     }
 
     @Override
@@ -81,7 +86,7 @@ public class RoomServiceImpl implements RoomService {
         return room.getRoomType().getValue();
     }
 
-    public List<RoomDetailedDto> getAvailableRooms (BookingDto b) {
+    public List<RoomDetailedDto> getAvailableRooms (BookingDetailedDto b) {
 
         LocalDate checkIn = b.getCheckInDate();
         LocalDate checkOut = b.getCheckOutDate();

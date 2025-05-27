@@ -1,5 +1,6 @@
 package com.example.hotel.services;
 
+import com.example.hotel.dtos.BookingDetailedDto;
 import com.example.hotel.dtos.BookingDto;
 import com.example.hotel.dtos.RoomDetailedDto;
 import com.example.hotel.dtos.RoomDto;
@@ -16,7 +17,8 @@ public interface RoomService {
 
     public List<RoomDto> getAllRooms();
 
-    public RoomDetailedDto getRoomById(long id);
+    public Room getRoomById(long id);
 
-    public List<RoomDetailedDto> getAvailableRooms (BookingDto b);
+    public List<RoomDetailedDto> getAvailableRooms (BookingDetailedDto b);
+    public RoomDto getRoomById2(long id);
 }

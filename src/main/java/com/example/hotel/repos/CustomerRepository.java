@@ -4,8 +4,11 @@ import com.example.hotel.models.Customer;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 import java.util.List;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
     List<Customer> findByEmailContainingIgnoreCase(String email);
+    Optional<Customer> findByPhoneNumber(String phoneNumber);
 }

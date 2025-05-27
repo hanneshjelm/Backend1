@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -12,11 +11,21 @@
         <th>ID</th>
         <th>Room Number</th>
         <th>Guest Capacity</th>
+        <th>Action</th>
     </tr>
     <tr th:each="room : ${rooms}">
         <td th:text="${room.id}"></td>
         <td th:text="${room.roomNumber}"></td>
         <td th:text="${room.capacity}"></td>
+        <td>
+            <form method="get" th:action="@{/customers/customerBooking}">
+                <input type="hidden" name="room.id" th:value="${room.id}" />
+                <input type="hidden" name="checkInDate" th:value="${booking.checkInDate}" />
+                <input type="hidden" name="checkOutDate" th:value="${booking.checkOutDate}" />
+                <input type="hidden" name="guests" th:value="${booking.guests}" />
+                <button type="submit">Book this room</button>
+            </form>
+        </td>
     </tr>
 </table>
 </body>

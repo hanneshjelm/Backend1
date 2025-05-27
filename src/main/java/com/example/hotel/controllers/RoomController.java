@@ -36,6 +36,14 @@ public class RoomController {
         model.addAttribute("room", currentRoom);
 
         return roomService.getRoomById(id);
+    @GetMapping("/rooms/{id}")
+    public RoomDetailedDto getRoomById(@PathVariable long id) {
+
+       return null;
+       // return roomService.getRoomById(id);
+
+
+
     }
 
 }

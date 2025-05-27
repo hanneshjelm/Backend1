@@ -1,8 +1,6 @@
 package com.example.hotel.controllers;
 
-import com.example.hotel.dtos.BookingDetailedDto;
-import com.example.hotel.dtos.BookingDto;
-import com.example.hotel.dtos.RoomDetailedDto;
+import com.example.hotel.dtos.*;
 import com.example.hotel.dtos.BookingDto;
 import com.example.hotel.models.Booking;
 import com.example.hotel.repos.BookingRepository;
@@ -13,9 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,6 +22,8 @@ public class BookingController {
     private final BookingRepository bookingRepository;
     private final RoomService roomService;
     private final CustomerService customerService;
+    private static final Logger log = Logger.getLogger(BookingController.class.getName());
+
 
     @RequestMapping("bookings")
     public String getAllBookings(Model model) {
@@ -69,29 +69,46 @@ public class BookingController {
     }
 
     @GetMapping("bookings/create")
-    public String createBooking(Model model) {
-        model.addAttribute("booking", new BookingDetailedDto());
-        model.addAttribute("customers", customerService.getAllCustomers());
-        model.addAttribute("rooms", roomService.getAllRooms());
-        return "createBooking";
+    public String createBooking(@ModelAttribute("booking") BookingDetailedDto bookingForm, Model model) {
+        bookingService.createBooking(bookingForm);
+        return "bookingResult";
     }
-
-
 
     @GetMapping("/searchAvailableRooms")
     public String showSearchForm(Model model) {
-        model.addAttribute("booking", new BookingDto());
+        model.addAttribute("booking", new BookingDetailedDto());
         return "roomSearch";
     }
 
     @PostMapping("/searchAvailableRooms")
     public String searchAvailableRooms(
-            @ModelAttribute("booking") BookingDto bookingForm,
+            @ModelAttribute("booking") BookingDetailedDto bookingForm,
             Model model
     ) {
         List<RoomDetailedDto> availableRooms = roomService.getAvailableRooms(bookingForm);
-
+        model.addAttribute("booking", bookingForm);
         model.addAttribute("rooms", availableRooms);
         return "availableRooms";
     }
+
+    @PostMapping("registerBooking")
+    public String registerBooking(@ModelAttribute("booking")BookingDetailedDto booking ,Model model) {
+
+        CustomerDto dto = customerService.findByPhoneNumber(booking.getCustomer().getPhoneNumber());
+        if (dto != null) {
+        booking.setCustomer(dto);
+        bookingService.createBooking(booking);
+            System.out.println("yaass queen");
+        } else {
+        customerService.createCustomer(booking.getCustomer());
+        CustomerDto customerDto = customerService.findByPhoneNumber(booking.getCustomer().getPhoneNumber());
+
+        booking.setCustomer(customerDto);
+        log.info(customerDto.getId().toString());
+        bookingService.createBooking(booking);
+            System.out.println("yasss bich");
+        }
+        return "bookingResult";
+    }
+
 }

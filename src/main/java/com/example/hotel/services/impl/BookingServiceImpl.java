@@ -8,25 +8,28 @@ import com.example.hotel.models.Booking;
 import com.example.hotel.models.Customer;
 import com.example.hotel.models.Room;
 import com.example.hotel.repos.BookingRepository;
-import com.example.hotel.repos.CustomerRepository;
-import com.example.hotel.repos.RoomRepository;
-import com.example.hotel.repos.CustomerRepository;
 import com.example.hotel.services.BookingService;
 import com.example.hotel.services.CustomerService;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.RequiredArgsConstructor;
+import com.example.hotel.services.RoomService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+
 public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
-    private final CustomerRepository customerRepository;
-    private final RoomRepository roomRepository;
+    private final CustomerService customerService;
+    private final RoomService roomService;
+
+    public BookingServiceImpl(BookingRepository bookingRepository,
+                              CustomerService customerService,
+                              RoomService roomService) {
+        this.bookingRepository = bookingRepository;
+        this.customerService = customerService;
+        this.roomService = roomService;
+    }
 
     @Override
     public List<BookingDto> getAllBookings() {
@@ -36,8 +39,8 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public String updateBooking(BookingDetailedDto b) {
         Booking existingBooking = bookingRepository.findById(b.getId()).orElse(null);
-        Customer customer = customerRepository.findById(b.getCustomer().getId()).orElse(null);
-        Room room = roomRepository.findById(b.getRoom().getId()).orElse(null);
+        Customer customer = customerService.findCustomerById(b.getCustomer().getId());
+        Room room = roomService.getRoomById(b.getRoom().getId());
 
         if (existingBooking != null) {
             existingBooking.setRoom(room);
@@ -55,8 +58,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public String createBooking(BookingDetailedDto bookingDetailedDto) {
-        Customer customer = customerRepository.findById(bookingDetailedDto.getCustomer().getId()).orElse(null);
-        Room room = roomRepository.findById(bookingDetailedDto.getRoom().getId()).orElse(null);
+        Customer customer = customerService.findCustomerById(bookingDetailedDto.getCustomer().getId());
+        Room room = roomService.getRoomById(bookingDetailedDto.getRoom().getId());
 
         if (customer == null) {
             return "Customer not found";
@@ -84,19 +87,11 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingDetailedDto bookingToBookingDetailedDto(Booking b) {
-        return BookingDetailedDto.builder().id(b.getId()).customer(new CustomerDto(b.getCustomer().getId(), b.getCustomer().getName()))
+        return BookingDetailedDto.builder().id(b.getId()).customer(new CustomerDto(b.getCustomer().getId(), b.getCustomer().getName(), b.getCustomer().getEmail(), b.getCustomer().getPhoneNumber()))
                 .room(new RoomDto(b.getRoom().getId(), b.getRoom().getRoomNumber(), b.getRoom().getRoomType().getType())).guests(b.getGuests())
                 .checkInDate(b.getCheckInDate()).checkOutDate(b.getCheckOutDate()).build();
     }
 
-
-    /*
-    public Booking BookingDetailedDtoToBooking(BookingDetailedDto b) {
-        return Booking.builder().id(b.getId()).customer(customerService.findCustomerById(b.getId()))
-               // .room(b.getRoom()).checkInDate(b.getCheckInDate())
-                .checkOutDate(b.getCheckOutDate()).guests(b.getGuests())
-                .build(); }
-*/
 
     @Override
     public Booking findBookingById(Long id) {
