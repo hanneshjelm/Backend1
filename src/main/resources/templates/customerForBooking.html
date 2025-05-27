@@ -9,6 +9,11 @@
 
     <p th:if="${error}" th:text="${error}" style="color:red;"></p>
 
+    <input type="hidden" name="booking.room.id" th:value="${booking.room.id}" />
+    <input type="hidden" name="booking.guests" th:value="${booking.guests}" />
+    <input type="hidden" name="booking.checkInDate" th:value="${booking.checkInDate}" />
+    <input type="hidden" name="booking.checkOutDate" th:value="${booking.checkOutDate}" />
+
     <label for="name">Fulla namnet:</label>
     <input type="text" th:field="*{name}" id="name" required><br><br>
 
