@@ -1,6 +1,7 @@
 package com.example.hotel;
 
 import com.example.hotel.controllers.BookingController;
+import com.example.hotel.controllers.CustomerController;
 import com.example.hotel.controllers.RoomController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,13 @@ public class MainTest {
     @Autowired
     private BookingController bookingController;
 
+    @Autowired
+    private CustomerController customerController;
+
     @Test
     void contextLoads() {
         assertThat(roomController).isNotNull();
         assertThat(bookingController).isNotNull();
+        assertThat(customerController).isNotNull();
     }
 }

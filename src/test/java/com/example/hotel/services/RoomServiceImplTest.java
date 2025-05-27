@@ -131,7 +131,5 @@ public class RoomServiceImplTest {
         assertEquals(List.of(actualDetailedDto2, actualDetailedDto3), roomService.getAvailableRooms(booking1));
         assertEquals(List.of(actualDetailedDto1, actualDetailedDto2, actualDetailedDto3), roomService.getAvailableRooms(booking2));
         assertEquals(List.of(actualDetailedDto3), roomService.getAvailableRooms(booking3));
-
-
     }
 }
