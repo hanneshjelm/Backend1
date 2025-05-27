@@ -33,7 +33,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room getRoomById(long id) {
-        return roomRepository.findById(id).get();//Behöver checka denna metod om rum inte hittas
+        return roomRepository.findById(id).orElse(null);//Behöver checka denna metod om rum inte hittas
     }
 
     public RoomDto getRoomById2(long id) {
