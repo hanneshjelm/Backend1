@@ -18,8 +18,20 @@ public class RoomControllerWebTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void roomControllerTest() {
+    public void getAllRoomsTest() {
         assertThat(restTemplate.getForObject("http://localhost:" + port + "/rooms/all", String.class))
                 .contains("All Rooms");
+    }
+
+    @Test
+    public void searchAvailableRooms() {
+        assertThat(restTemplate.getForObject("http://localhost:" + port + "/searchAvailableRooms", String.class))
+                .contains("Search for:");
+    }
+
+    @Test
+    public void getAllCustomers() {
+        assertThat(restTemplate.getForObject("http://localhost:" + port + "/customers/all", String.class))
+                .contains("All Customers");
     }
 }
