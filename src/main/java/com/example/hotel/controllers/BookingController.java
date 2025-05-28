@@ -153,15 +153,15 @@ public class BookingController {
     @PostMapping("/confirmBookingUpdate")
     public String confirmUpdatedBooking(@RequestParam Long bookingId, @RequestParam int newRoomId, @RequestParam String checkInDate, @RequestParam String checkOutDate, @RequestParam int guests, Model model) {
 
-        Booking booking = bookingService.findBookingById(bookingId);
-        Room newRoom = roomService.getRoomById(newRoomId);
+        BookingDetailedDto booking = bookingService.findBookingDetailedDtoById(bookingId);
+        RoomDto newRoom = roomService.roomToRoomDto(roomService.getRoomById(newRoomId));
 
         booking.setRoom(newRoom);
         booking.setCheckInDate(LocalDate.parse(checkInDate));
         booking.setCheckOutDate(LocalDate.parse(checkOutDate));
         booking.setGuests(guests);
 
-        bookingService.updateBooking(bookingService.bookingToBookingDetailedDto(booking));
+        bookingService.updateBooking(booking);
 
         model.addAttribute("isUpdate", true);
         model.addAttribute("customerName", booking.getCustomer().getName());

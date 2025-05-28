@@ -98,7 +98,10 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepository.findById(id).orElse(null);
     }
 
-
+    public BookingDetailedDto findBookingDetailedDtoById(Long id) {
+        Booking existingBooking = bookingRepository.findById(id).get();
+        return bookingToBookingDetailedDto(existingBooking);
+    }
 
 
 }

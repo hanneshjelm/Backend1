@@ -20,4 +20,6 @@ public interface BookingService {
 
     public String createBooking(BookingDetailedDto bookingDetailedDto);
 
+    public BookingDetailedDto findBookingDetailedDtoById(Long id);
+
 }
