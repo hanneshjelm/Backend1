@@ -1,12 +1,11 @@
 package com.example.hotel.services.impl;
 import com.example.hotel.dtos.CustomerDetailedDto;
 import com.example.hotel.dtos.CustomerDto;
+import com.example.hotel.mappers.CustomerMapper;
 import com.example.hotel.models.Customer;
 import com.example.hotel.repos.CustomerRepository;
-import com.example.hotel.services.BookingService;
 import com.example.hotel.services.CustomerService;
 import jakarta.transaction.Transactional;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 
@@ -16,24 +15,40 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final BookingService bookingService;
+    private final CustomerMapper customerMapper;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository, @Lazy BookingService bookingService) {
+    public CustomerServiceImpl(CustomerRepository customerRepository,
+        CustomerMapper customerMapper ) {
         this.customerRepository = customerRepository;
-        this.bookingService = bookingService;
+        this.customerMapper = customerMapper;
     }
 
 
     @Override
+    public CustomerDto customerToCustomerDto(Customer c) {
+        return customerMapper.customerToCustomerDto(c);
+    }
+
+    @Override
+    public CustomerDetailedDto customerToCustomerDetailedDto(Customer c) {
+        return customerMapper.customerToCustomerDetailedDto(c);
+    }
+
+    @Override
+    public Customer customerDetailedDtoToCustomer(CustomerDetailedDto c) {
+        return customerMapper.customerDetailedDtoToCustomer(c);
+    }
+
+    @Override
     public List<CustomerDetailedDto> getAllCustomers() {
 
-        return customerRepository.findAll().stream().map(this::customerToCustomerDetailedDto).toList();
+        return customerRepository.findAll().stream().map(customerMapper::customerToCustomerDetailedDto).toList();
     }
 
     @Override
     @Transactional
     public String createCustomer(CustomerDto c) {
-        customerRepository.save(customerDtoToCustomer(c));
+        customerRepository.save(customerMapper.customerDtoToCustomer(c));
         return "Success";
     }
 
@@ -43,44 +58,19 @@ public class CustomerServiceImpl implements CustomerService {
         if(customers.isEmpty()) {
             return List.of();
         }
-        return customers.stream().map(this::customerToCustomerDetailedDto).toList();
+        return customers.stream().map(customerMapper::customerToCustomerDetailedDto).toList();
     }
 
     @Override
     public CustomerDto findByPhoneNumber(String phoneNumber) {
-        return customerRepository.findByPhoneNumber(phoneNumber).map(this::customerToCustomerDto).orElse(null);
+        return customerRepository.findByPhoneNumber(phoneNumber).map(customerMapper::customerToCustomerDto).orElse(null);
     }
 
     @Override
-    public CustomerDto customerToCustomerDto(Customer c) {
-        return CustomerDto.builder().id(c.getId()).name(c.getName())
-                .email(c.getEmail()).phoneNumber(c.getPhoneNumber())
-                .build();
-
-    }
-
-    @Override
-    public CustomerDetailedDto customerToCustomerDetailedDto(Customer c) {
-        return CustomerDetailedDto.builder().id(c.getId()).name(c.getName())
-                .email(c.getEmail()).phoneNumber(c.getPhoneNumber())
-                .bookings(c.getBookings().stream()
-                        .map(bookingService::bookingToBookingDto).toList()).build();
-
-    }
-
-    @Override
-    public Customer customerDetailedDtoToCustomer(CustomerDetailedDto c) {
-
-        return Customer.builder().id(c.getId()).name(c.getName()).email(c.getEmail())
-                .phoneNumber(c.getPhoneNumber()).bookings(c.getBookings().stream()
-                        .map(bookings -> bookingService.findBookingById(bookings.getId())).toList()).build();
-    }
-
     public Customer customerDtoToCustomer(CustomerDto c) {
-
-        return Customer.builder().name(c.getName()).email(c.getEmail())
-                .phoneNumber(c.getPhoneNumber()).build();
+        return customerMapper.customerDtoToCustomer(c);
     }
+
 
     //kan ta bort denna om inte room eller booking ska ha builders
     @Override

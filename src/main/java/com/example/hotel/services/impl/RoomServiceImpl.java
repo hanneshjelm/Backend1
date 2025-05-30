@@ -1,6 +1,7 @@
 package com.example.hotel.services.impl;
 
 import com.example.hotel.dtos.BookingDetailedDto;
+import com.example.hotel.mappers.RoomMapper;
 import org.springframework.context.annotation.Lazy;
 import com.example.hotel.dtos.RoomDetailedDto;
 import com.example.hotel.dtos.RoomDto;
@@ -22,12 +23,24 @@ import java.util.List;
 public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
-    private final BookingService bookingService;
 
-    public RoomServiceImpl(RoomRepository roomRepository, @Lazy BookingService bookingService) {
+    private final RoomMapper roomMapper;
+
+    public RoomServiceImpl(RoomRepository roomRepository, RoomMapper roomMapper) {
         this.roomRepository = roomRepository;
-        this.bookingService = bookingService;
+        this.roomMapper = roomMapper;
     }
+
+    @Override
+    public RoomDto roomToRoomDto(Room room) {
+        return roomMapper.roomToRoomDto(room);
+    }
+
+    @Override
+    public RoomDetailedDto roomToRoomDetailedDto(Room room) {
+        return roomMapper.roomToRoomDetailedDto(room);
+    }
+
     @Override
     public List<RoomDto> getAllRooms() {
         return roomRepository.findAll().stream().map(this::roomToRoomDto).toList();
@@ -40,50 +53,6 @@ public class RoomServiceImpl implements RoomService {
 
     public RoomDto getRoomById2(long id) {
         return roomToRoomDto(roomRepository.findById(id).orElseThrow());
-    }
-
-    @Override
-    public RoomDto roomToRoomDto(Room roomEntity) {
-        return RoomDto.builder().id(roomEntity.getId()).roomNumber(roomEntity.getRoomNumber()).roomTypeString(roomEntity.getRoomType().getType()).build();
-    }
-
-    @Override
-    public RoomDetailedDto roomToRoomDetailedDto(Room roomEntity) {
-
-        List<Booking> bookings = roomEntity.getBookings();
-        if(bookings == null || bookings.isEmpty()){
-            bookings = Collections.emptyList();
-        }
-
-        RoomDetailedDto roomDetailedDto = RoomDetailedDto.builder().id(roomEntity.getId()).roomNumber(roomEntity.getRoomNumber())
-                .size(roomEntity.getSize()).roomTypeString(roomEntity.getRoomType().getType()).bookings(bookings
-                        .stream().map(booking -> bookingService.bookingToBookingDto(booking)).toList()).build();
-
-        roomDetailedDto.setExtraBeds(amountOfExtraBeds(roomEntity));
-        roomDetailedDto.setCapacity(totalCapacity(roomEntity));
-        return roomDetailedDto;
-    }
-
-    public int amountOfExtraBeds(Room room){
-        if (room.getRoomType() == RoomType.SINGLE){
-            return 0;
-        }
-
-        if(room.getSize() < 22){
-            return 0;
-        } else if(room.getSize() < 30){
-            return 1;
-        } else {
-            return 2;
-        }
-    }
-
-    public int totalCapacity(Room room){
-        if(room.getRoomType() == RoomType.DOUBLE){
-            return RoomType.DOUBLE.getValue() + amountOfExtraBeds(room);
-        }
-
-        return room.getRoomType().getValue();
     }
 
     public List<RoomDetailedDto> getAvailableRooms (BookingDetailedDto b) {

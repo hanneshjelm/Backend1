@@ -5,6 +5,7 @@ import com.example.hotel.dtos.CustomerDto;
 import com.example.hotel.dtos.RoomDetailedDto;
 import com.example.hotel.dtos.RoomDto;
 import com.example.hotel.enums.RoomType;
+import com.example.hotel.mappers.RoomMapper;
 import com.example.hotel.models.Booking;
 import com.example.hotel.models.Room;
 import com.example.hotel.repos.BookingRepository;
@@ -37,6 +38,9 @@ public class RoomServiceImplTest {
 
     @Autowired
     private RoomServiceImpl roomServiceImpl;
+
+    @Autowired
+    private RoomMapper roomMapper;
 
     private Room room1;
     private Room room2;
@@ -101,9 +105,9 @@ public class RoomServiceImplTest {
 
     @Test
     public void amountOfExtraBedsTest() throws Exception {
-        int actualAmount1 = roomServiceImpl.amountOfExtraBeds(room1);
-        int actualAmount2 = roomServiceImpl.amountOfExtraBeds(room2);
-        int actualAmount3 = roomServiceImpl.amountOfExtraBeds(room3);
+        int actualAmount1 = roomMapper.amountOfExtraBeds(room1);
+        int actualAmount2 = roomMapper.amountOfExtraBeds(room2);
+        int actualAmount3 = roomMapper.amountOfExtraBeds(room3);
 
         assertEquals(0, actualAmount1);
         assertEquals(1, actualAmount2);
@@ -112,9 +116,9 @@ public class RoomServiceImplTest {
 
     @Test
     public void totalCapacityTest() throws Exception {
-        int actualCapacity1 = roomServiceImpl.totalCapacity(room1);
-        int actualCapacity2 = roomServiceImpl.totalCapacity(room2);
-        int actualCapacity3 = roomServiceImpl.totalCapacity(room3);
+        int actualCapacity1 = roomMapper.totalCapacity(room1);
+        int actualCapacity2 = roomMapper.totalCapacity(room2);
+        int actualCapacity3 = roomMapper.totalCapacity(room3);
 
         assertEquals(1, actualCapacity1);
         assertEquals(3, actualCapacity2);

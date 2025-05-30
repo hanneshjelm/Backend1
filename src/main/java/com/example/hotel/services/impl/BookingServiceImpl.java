@@ -4,10 +4,14 @@ import com.example.hotel.dtos.BookingDetailedDto;
 import com.example.hotel.dtos.BookingDto;
 import com.example.hotel.dtos.CustomerDto;
 import com.example.hotel.dtos.RoomDto;
+import com.example.hotel.mappers.BookingMapper;
+import com.example.hotel.mappers.CustomerMapper;
 import com.example.hotel.models.Booking;
 import com.example.hotel.models.Customer;
 import com.example.hotel.models.Room;
 import com.example.hotel.repos.BookingRepository;
+import com.example.hotel.repos.CustomerRepository;
+import com.example.hotel.repos.RoomRepository;
 import com.example.hotel.services.BookingService;
 import com.example.hotel.services.CustomerService;
 import com.example.hotel.services.RoomService;
@@ -20,27 +24,41 @@ import java.util.List;
 
 public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
-    private final CustomerService customerService;
-    private final RoomService roomService;
+    private final CustomerRepository customerRepository;
+    private final RoomRepository roomRepository;
+    private final BookingMapper bookingMapper;
+
 
     public BookingServiceImpl(BookingRepository bookingRepository,
-                              CustomerService customerService,
-                              RoomService roomService) {
+                              CustomerRepository customerRepository,
+                              BookingMapper bookingMapper,
+                              RoomRepository roomRepository) {
         this.bookingRepository = bookingRepository;
-        this.customerService = customerService;
-        this.roomService = roomService;
+        this.customerRepository = customerRepository;
+        this.bookingMapper = bookingMapper;
+        this.roomRepository  = roomRepository;
+    }
+
+    @Override
+    public BookingDto bookingToBookingDto(Booking b) {
+        return bookingMapper.bookingToBookingDto(b);
+    }
+
+    @Override
+    public BookingDetailedDto bookingToBookingDetailedDto(Booking b) {
+        return bookingMapper.bookingToBookingDetailedDto(b);
     }
 
     @Override
     public List<BookingDto> getAllBookings() {
-        return bookingRepository.findAll().stream().map(this::bookingToBookingDto).toList();
+        return bookingRepository.findAll().stream().map(bookingMapper::bookingToBookingDto).toList();
     }
 
     @Override
     public String updateBooking(BookingDetailedDto b) {
         Booking existingBooking = bookingRepository.findById(b.getId()).orElse(null);
-        Customer customer = customerService.findCustomerById(b.getCustomer().getId());
-        Room room = roomService.getRoomById(b.getRoom().getId());
+        Customer customer = customerRepository.findById(b.getCustomer().getId()).orElse(null);
+        Room room = roomRepository.findById(b.getRoom().getId()).orElse(null);
 
         if (existingBooking != null) {
             existingBooking.setRoom(room);
@@ -58,8 +76,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public String createBooking(BookingDetailedDto bookingDetailedDto) {
-        Customer customer = customerService.findCustomerById(bookingDetailedDto.getCustomer().getId());
-        Room room = roomService.getRoomById(bookingDetailedDto.getRoom().getId());
+        Customer customer = customerRepository.findById(bookingDetailedDto.getCustomer().getId()).orElse(null);
+        Room room = roomRepository.findById(bookingDetailedDto.getRoom().getId()).orElse(null);
 
         if (customer == null) {
             return "Customer not found";
@@ -79,19 +97,6 @@ public class BookingServiceImpl implements BookingService {
     }
 
 
-    @Override
-    public BookingDto bookingToBookingDto(Booking b) {
-        return BookingDto.builder().id(b.getId()).guests(b.getGuests()).checkInDate(b.getCheckInDate())
-                .checkOutDate(b.getCheckOutDate()).build();
-    }
-
-    @Override
-    public BookingDetailedDto bookingToBookingDetailedDto(Booking b) {
-        return BookingDetailedDto.builder().id(b.getId()).customer(new CustomerDto(b.getCustomer().getId(), b.getCustomer().getName(), b.getCustomer().getEmail(), b.getCustomer().getPhoneNumber()))
-                .room(new RoomDto(b.getRoom().getId(), b.getRoom().getRoomNumber(), b.getRoom().getRoomType().getType())).guests(b.getGuests())
-                .checkInDate(b.getCheckInDate()).checkOutDate(b.getCheckOutDate()).build();
-    }
-
 
     @Override
     public Booking findBookingById(Long id) {
@@ -100,8 +105,9 @@ public class BookingServiceImpl implements BookingService {
 
     public BookingDetailedDto findBookingDetailedDtoById(Long id) {
         Booking existingBooking = bookingRepository.findById(id).get();
-        return bookingToBookingDetailedDto(existingBooking);
+        return bookingMapper.bookingToBookingDetailedDto(existingBooking);
     }
+
 
 
 }
